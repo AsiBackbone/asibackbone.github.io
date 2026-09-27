@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AsiBackbone | Open-source .NET governance and architecture patterns</title>
+  <meta name="description" content="Why this outcome was permitted, under which policy, with what evidence. Open-source .NET governance, secure ASP.NET Core architecture, and practical learning material from AsiBackbone.">
+  <meta name="google-site-verification" content="R9IrfghOCGIgoGKd3mtDyPs_iTMXCVltPrGBNPVnFtA">
+  <link rel="canonical" href="https://asibackbone.github.io/">
+  <link rel="icon" href="images/favicon.ico">
+  <link rel="alternate" type="application/rss+xml" title="AsiBackbone Learning" href="https://asibackbone.github.io/Learning/feed.xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AsiBackbone">
+  <meta property="og:title" content="AsiBackbone — open-source .NET governance and architecture patterns">
+  <meta property="og:description" content="Policy-governed decision pipelines, a secure-by-default ASP.NET Core template, and practical architecture learning material for .NET.">
+  <meta property="og:url" content="https://asibackbone.github.io/">
+  <meta property="og:image" content="https://asibackbone.github.io/images/asibackbone-social.png">
+  <meta property="og:image:alt" content="AsiBackbone — practical .NET architecture, security, and governed execution">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://asibackbone.github.io/#organization",
+        "name": "AsiBackbone",
+        "url": "https://asibackbone.github.io/",
+        "logo": "https://asibackbone.github.io/images/asibackbone-icon-50.png",
+        "description": "Open-source .NET governance and architecture patterns.",
+        "sameAs": ["https://github.com/AsiBackbone"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://asibackbone.github.io/#website",
+        "name": "AsiBackbone",
+        "url": "https://asibackbone.github.io/",
+        "publisher": { "@id": "https://asibackbone.github.io/#organization" }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --text: #1b1f24;
+      --muted: #57606a;
+      --border: #d8dee4;
+      --accent: #0b5cad;
+      --accent-soft: #e7f0fa;
+      --focus: #0b5cad;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1419;
+        --surface: #161c23;
+        --text: #e6edf3;
+        --muted: #9aa6b2;
+        --border: #2d3640;
+        --accent: #6cb6ff;
+        --accent-soft: #15283b;
+        --focus: #6cb6ff;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); }
+    a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+
+    .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1rem; }
+
+    .skip-link { position: absolute; left: -999px; }
+    .skip-link:focus { left: 1rem; top: 1rem; background: var(--surface); padding: .5rem .75rem; z-index: 10; }
+
+    header.site { border-bottom: 1px solid var(--border); background: var(--surface); }
+    header.site .wrap { display: flex; align-items: center; gap: .75rem; padding-top: .75rem; padding-bottom: .75rem; }
+    header.site img { width: 36px; height: 36px; }
+    header.site .brand { font-weight: 700; font-size: 1.15rem; color: var(--text); text-decoration: none; }
+    header.site nav { margin-left: auto; display: flex; gap: 1.25rem; font-size: .95rem; }
+
+    .hero { padding: 3.5rem 0 2.5rem; }
+    .hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); line-height: 1.2; margin: 0 0 1rem; max-width: 20em; }
+    .hero p { color: var(--muted); max-width: 44em; margin: 0 0 1rem; }
+
+    h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+
+    .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+
+    .project {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project .role {
+      align-self: flex-start;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: .8rem;
+      font-weight: 600;
+      padding: .15rem .65rem;
+      margin-bottom: .75rem;
+    }
+
+    .project h3 { margin: 0 0 .5rem; font-size: 1.25rem; }
+    .project h3 a { color: var(--text); text-decoration: none; }
+    .project h3 a:hover { color: var(--accent); }
+    .project p { margin: 0 0 1rem; color: var(--muted); }
+    .project .links { margin-top: auto; display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-size: .95rem; }
+
+    .principles { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+    .principles p { margin: 0 0 .75rem; }
+    .principles p:last-child { margin-bottom: 0; }
+
+    footer { margin-top: 3rem; border-top: 1px solid var(--border); color: var(--muted); font-size: .9rem; }
+    footer .wrap { padding-top: 1.5rem; padding-bottom: 2rem; }
+    footer p { margin: 0 0 .5rem; }
+
+    @media (max-width: 36rem) {
+      header.site nav { display: none; }
+      .hero { padding-top: 2.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site">
+    <div class="wrap">
+      <img src="images/asibackbone-icon-50.png" alt="" width="36" height="36">
+      <a class="brand" href="https://asibackbone.github.io/">AsiBackbone</a>
+      <nav aria-label="Sites">
+        <a href="https://asibackbone.github.io/Learning/">Learning</a>
+        <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
+        <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
+        <a href="https://github.com/AsiBackbone">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <h1 id="hero-title">Why this outcome was permitted, under which policy, with what evidence.</h1>
+      <p>AsiBackbone is an open-source organization for practical .NET governance and architecture. Most applications don't need a governance layer. When you do need one, because you have to explain why an operation was permitted, under which policy, and with what evidence, these are the patterns and the working implementations.</p>
+      <p>The organization maintains three related projects covering policy-as-code, auditable decision systems, capability-based authorization, host-owned execution boundaries, AI governance, and secure ASP.NET Core application architecture.</p>
+    </section>
+
+    <section aria-labelledby="projects-title">
+      <h2 id="projects-title">Start here</h2>
+      <div class="projects">
+        <article class="project">
+          <span class="role">Learn the patterns</span>
+          <h3><a href="https://asibackbone.github.io/Learning/">AsiBackbone Learning</a></h3>
+          <p>Practical .NET architecture tutorials, labs, runnable samples, and reference patterns for governed execution, secure applications, AI integration, and policy-driven systems. It includes comparisons that show when these patterns are unnecessary. Start here to understand the reasoning before evaluating any implementation.</p>
+          <div class="links">
+            <a href="https://asibackbone.github.io/Learning/">Documentation</a>
+            <a href="https://github.com/AsiBackbone/Learning">Repository</a>
+            <a href="https://doi.org/10.5281/zenodo.21938556">Archive (DOI)</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <span class="role">Add governed decisions</span>
+          <h3><a href="https://asibackbone.github.io/AsiBackbone/">AsiBackbone</a></h3>
+          <p>A .NET governance and policy-control framework for auditable AI and enterprise decision flows: policy evaluation and policy-as-code, auditable decision records, acknowledgment workflows, capability-based authorization, host-owned execution boundaries, and ASP.NET Core integration.</p>
+          <div class="links">
+            <a href="https://asibackbone.github.io/AsiBackbone/">Documentation</a>
+            <a href="https://github.com/AsiBackbone/AsiBackbone">Repository</a>
+            <a href="https://doi.org/10.5281/zenodo.20546032">Archive (DOI)</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <span class="role">Start a secure application</span>
+          <h3><a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">.NET Core Application Template</a></h3>
+          <p>A secure-by-default ASP.NET Core enterprise application template: authentication and authorization, Serilog structured logging, security headers, rate limiting, EF Core with SQL Server and SQLite, reverse proxy support, and Problem Details error handling.</p>
+          <div class="links">
+            <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Documentation</a>
+            <a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate">Repository</a>
+            <a href="https://doi.org/10.5281/zenodo.20373042">Archive (DOI)</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="philosophy-title">
+      <h2 id="philosophy-title">Design philosophy</h2>
+      <div class="principles">
+        <p>We favor architectures where consequential operations are explicit, constrained, reviewable, and auditable.</p>
+        <p>We also document when these patterns are unnecessary. See <a href="https://asibackbone.github.io/Learning/architecture/when-aspnet-core-authorization-is-enough.html">When ASP.NET Core Authorization Is Enough</a> and <a href="https://asibackbone.github.io/Learning/architecture/when-a-simple-application-service-is-enough.html">When a Simple Application Service Is Enough</a>.</p>
+        <p>The projects focus on practical .NET engineering. They do not claim regulatory certification or automatic compliance.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Built with .NET, C#, ASP.NET Core, EF Core, Serilog, and GitHub Actions.</p>
+      <p><a href="https://github.com/AsiBackbone">AsiBackbone on GitHub</a> · AsiBackbone is not affiliated with the Artificial Superintelligence Alliance.</p>
+    </div>
+  </footer>
+</body>
+</html>

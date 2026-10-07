@@ -1,7 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://asibackbone.github.io/</loc>
-    <lastmod>2026-09-26</lastmod>
-  </url>
-</urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://asibackbone.github.io/Learning/sitemap.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://asibackbone.github.io/AsiBackbone/sitemap.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://asibackbone.github.io/NetCoreApplicationTemplate/sitemap.xml</loc>
+  </sitemap>
+</sitemapindex>

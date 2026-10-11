@@ -35,6 +35,10 @@ $assetLicensePath = Get-RequiredFile 'ASSETS-LICENSES.md'
 $editorConfigPath = Get-RequiredFile '.editorconfig'
 $gitAttributesPath = Get-RequiredFile '.gitattributes'
 $gitIgnorePath = Get-RequiredFile '.gitignore'
+$dependabotPath = Get-RequiredFile '.github/dependabot.yml'
+$dependencyReviewPath = Get-RequiredFile '.github/workflows/dependency-review.yml'
+$workflowSecurityPath = Get-RequiredFile '.github/workflows/workflow-security.yml'
+$scorecardPath = Get-RequiredFile '.github/workflows/openssf-scorecard.yml'
 
 if ($indexPath) {
     $html = Get-Content -LiteralPath $indexPath -Raw
@@ -187,6 +191,45 @@ if ($gitAttributesPath -and -not (Get-Content -LiteralPath $gitAttributesPath -R
 
 if ($gitIgnorePath -and -not (Get-Content -LiteralPath $gitIgnorePath -Raw).Contains('.vs/', [StringComparison]::Ordinal)) {
     Add-Failure '.gitignore must exclude Visual Studio workspace state.'
+}
+
+if ($dependabotPath) {
+    $dependabot = Get-Content -LiteralPath $dependabotPath -Raw
+    foreach ($requiredText in @('package-ecosystem: "github-actions"', 'interval: "weekly"', 'day: "friday"', 'timezone: "America/Chicago"', 'github-actions:')) {
+        if (-not $dependabot.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure ".github/dependabot.yml is missing its '$requiredText' contract."
+        }
+    }
+}
+
+$securityWorkflowContracts = [ordered]@{
+    '.github/workflows/dependency-review.yml' = @('name: Dependency Review', 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294', 'fail-on-severity: moderate')
+    '.github/workflows/workflow-security.yml' = @('name: GitHub Actions security analysis', 'zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482', 'advanced-security: true', 'docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667')
+    '.github/workflows/openssf-scorecard.yml' = @('name: OpenSSF Scorecard supply-chain security', 'ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc', 'publish_results: true', 'github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d')
+}
+
+foreach ($contract in $securityWorkflowContracts.GetEnumerator()) {
+    $workflowPath = Join-Path $RepositoryRoot $contract.Key
+    if (-not (Test-Path -LiteralPath $workflowPath -PathType Leaf)) {
+        continue
+    }
+
+    $workflowContent = Get-Content -LiteralPath $workflowPath -Raw
+    foreach ($requiredText in $contract.Value) {
+        if (-not $workflowContent.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "$($contract.Key) is missing required content: $requiredText"
+        }
+    }
+}
+
+foreach ($workflowFile in Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot '.github/workflows') -File -Filter '*.yml') {
+    $workflowContent = Get-Content -LiteralPath $workflowFile.FullName -Raw
+    foreach ($use in [regex]::Matches($workflowContent, '(?m)^\s*uses:\s*(?<action>\S+)')) {
+        $action = $use.Groups['action'].Value
+        if ($action -notmatch '@(?:[0-9a-f]{40}|sha256:[0-9a-f]{64})$') {
+            Add-Failure "$($workflowFile.Name) contains an action that is not pinned to an immutable digest: $action"
+        }
+    }
 }
 
 foreach ($reservedPath in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate')) {

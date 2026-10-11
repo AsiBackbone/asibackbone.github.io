@@ -33,3 +33,7 @@ When a project site starts publishing a sitemap, add its `Sitemap:` line to `rob
 ## Publishing
 
 GitHub Pages deploys the `main` branch root. Changes are live a minute or two after they reach `main`.
+
+## Licensing
+
+Landing-page prose, descriptive metadata, and the listed image assets are licensed under CC BY 4.0. Site implementation, scripts, workflows, and repository configuration are licensed under MIT. See [LICENSES.md](LICENSES.md), [LICENSE](LICENSE), [LICENSE-CODE](LICENSE-CODE), and [ASSETS-LICENSES.md](ASSETS-LICENSES.md) for the complete boundary and trademark notice.

@@ -28,6 +28,13 @@ function Get-RequiredFile {
 $indexPath = Get-RequiredFile 'index.html'
 $robotsPath = Get-RequiredFile 'robots.txt'
 $sitemapPath = Get-RequiredFile 'sitemap.xml'
+$licensePath = Get-RequiredFile 'LICENSE'
+$codeLicensePath = Get-RequiredFile 'LICENSE-CODE'
+$licenseScopePath = Get-RequiredFile 'LICENSES.md'
+$assetLicensePath = Get-RequiredFile 'ASSETS-LICENSES.md'
+$editorConfigPath = Get-RequiredFile '.editorconfig'
+$gitAttributesPath = Get-RequiredFile '.gitattributes'
+$gitIgnorePath = Get-RequiredFile '.gitignore'
 
 if ($indexPath) {
     $html = Get-Content -LiteralPath $indexPath -Raw
@@ -104,6 +111,55 @@ if ($sitemapPath) {
     catch {
         Add-Failure "sitemap.xml is invalid XML: $($_.Exception.Message)"
     }
+}
+
+if ($licensePath -and -not (Get-Content -LiteralPath $licensePath -Raw).StartsWith('Attribution 4.0 International', [StringComparison]::Ordinal)) {
+    Add-Failure 'LICENSE must contain the complete CC BY 4.0 text.'
+}
+
+if ($codeLicensePath -and -not (Get-Content -LiteralPath $codeLicensePath -Raw).StartsWith('MIT License', [StringComparison]::Ordinal)) {
+    Add-Failure 'LICENSE-CODE must contain the complete MIT License text.'
+}
+
+if ($licenseScopePath) {
+    $licenseScope = Get-Content -LiteralPath $licenseScopePath -Raw
+    foreach ($requiredText in @('CC BY 4.0 content', 'MIT-licensed source', 'Brand and third-party boundaries', 'Contributions')) {
+        if (-not $licenseScope.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "LICENSES.md is missing its '$requiredText' boundary."
+        }
+    }
+}
+
+if ($assetLicensePath) {
+    $assetLicense = Get-Content -LiteralPath $assetLicensePath -Raw
+    $expectedAssetHashes = [ordered]@{
+        'images/asibackbone-icon-50.png' = 'A7D5AF4069DF86398EFACFCE3ADC8AE51BFC5BE81AB58EE3052219998EA0A01E'
+        'images/asibackbone-social.png' = '8EB614CBCAE9B53577F434E0E458D11106581CBEC8FC82F944E17E75403B5C35'
+        'images/favicon.ico' = '91A4AB87978D184009821BFDC6C6BEC0D6F00E364B420D630B64122F19D1F5D8'
+    }
+
+    foreach ($entry in $expectedAssetHashes.GetEnumerator()) {
+        $assetPath = Get-RequiredFile $entry.Key
+        if ($assetPath -and (Get-FileHash -LiteralPath $assetPath -Algorithm SHA256).Hash -cne $entry.Value) {
+            Add-Failure "$($entry.Key) does not match its recorded SHA-256."
+        }
+
+        if (-not $assetLicense.Contains($entry.Value, [StringComparison]::Ordinal)) {
+            Add-Failure "ASSETS-LICENSES.md does not record the SHA-256 for $($entry.Key)."
+        }
+    }
+}
+
+if ($editorConfigPath -and -not (Get-Content -LiteralPath $editorConfigPath -Raw).Contains('root = true', [StringComparison]::Ordinal)) {
+    Add-Failure '.editorconfig must declare itself as the top-level configuration.'
+}
+
+if ($gitAttributesPath -and -not (Get-Content -LiteralPath $gitAttributesPath -Raw).Contains('*.png     binary', [StringComparison]::Ordinal)) {
+    Add-Failure '.gitattributes must preserve image assets as binary files.'
+}
+
+if ($gitIgnorePath -and -not (Get-Content -LiteralPath $gitIgnorePath -Raw).Contains('.vs/', [StringComparison]::Ordinal)) {
+    Add-Failure '.gitignore must exclude Visual Studio workspace state.'
 }
 
 foreach ($reservedPath in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate')) {

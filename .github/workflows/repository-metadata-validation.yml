@@ -1,0 +1,44 @@
+name: Repository metadata validation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '37 8 * * 1'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - REPOSITORY-METADATA-BASELINE.md
+      - scripts/Test-RepositoryMetadataBaseline.ps1
+      - .github/workflows/repository-metadata-validation.yml
+  push:
+    branches:
+      - main
+    paths:
+      - REPOSITORY-METADATA-BASELINE.md
+      - scripts/Test-RepositoryMetadataBaseline.ps1
+      - .github/workflows/repository-metadata-validation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate repository metadata baseline
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run baseline contract tests
+        shell: pwsh
+        run: ./scripts/Test-RepositoryMetadataBaseline.ps1 -SelfTest
+
+      - name: Review live repository metadata
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: ./scripts/Test-RepositoryMetadataBaseline.ps1

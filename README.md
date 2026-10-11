@@ -12,8 +12,11 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 | `images/` | Icon, favicon, and social preview image shared with the Learning site |
 | `.nojekyll` | Serves the files as-is, without a Jekyll build |
 | `OUTREACH-PLAN.md` | Maintainer-owned audience, publication, community-participation, and measurement plan |
+| `REPOSITORY-METADATA-BASELINE.md` | Organization-wide repository metadata expectations and review procedure |
 
 Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
+
+Repository metadata that affects documentation routing, including the organization-wide wiki policy, is documented in [REPOSITORY-METADATA-BASELINE.md](REPOSITORY-METADATA-BASELINE.md).
 
 GitHub Actions dependencies are maintained by Dependabot and reviewed by dependency-review, zizmor, actionlint, and OpenSSF Scorecard workflows using immutable action pins.
 

@@ -14,6 +14,8 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 
 Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
 
+GitHub Actions dependencies are maintained by Dependabot and reviewed by dependency-review, zizmor, actionlint, and OpenSSF Scorecard workflows using immutable action pins.
+
 Pull-request flow, required checks, merge behavior, and the recovery-only bypass are documented in [REPOSITORY-GOVERNANCE.md](REPOSITORY-GOVERNANCE.md).
 
 Pull-request flow, required checks, merge behavior, and the recovery-only bypass are documented in [REPOSITORY-GOVERNANCE.md](REPOSITORY-GOVERNANCE.md).

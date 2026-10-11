@@ -41,4 +41,13 @@ After changing either ruleset:
 6. Confirm the expected repository-specific status check is strict and required.
 7. Open a test pull request, allow the check to pass, and merge normally without using bypass.
 
-The implementation pull requests and final ruleset identifiers are recorded here after live verification.
+## Verified implementation
+
+The live API state was re-read on 2026-10-11 after both rulesets were activated:
+
+| Repository | Ruleset ID | Test pull request | Result |
+| --- | ---: | --- | --- |
+| `AsiBackbone/asibackbone.github.io` | `24879392` | [#9](https://github.com/AsiBackbone/asibackbone.github.io/pull/9) | Required check passed; merged normally as `e9312827383f45b5fa103e4a03861a00417e27a4` |
+| `AsiBackbone/.github` | `24879389` | [#6](https://github.com/AsiBackbone/.github/pull/6) | Required check passed; GitHub reported the PR `CLEAN` and eligible for normal squash merge |
+
+For both repositories, the API confirmed an active ruleset targeting only `refs/heads/main`, the deletion/non-fast-forward/linear-history rules, a zero-approval pull-request rule with conversation resolution, the strict repository-specific status check, and a user bypass limited to pull-request mode. Repository settings confirmed squash-only merges and automatic source-branch deletion.

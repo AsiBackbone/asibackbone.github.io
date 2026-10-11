@@ -12,6 +12,8 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 | `images/` | Icon, favicon, and social preview image shared with the Learning site |
 | `.nojekyll` | Serves the files as-is, without a Jekyll build |
 
+Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
+
 ## Relationship to the project sites
 
 The project repositories publish their own sites under this domain:

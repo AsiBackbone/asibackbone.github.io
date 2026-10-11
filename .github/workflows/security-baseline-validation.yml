@@ -1,0 +1,35 @@
+name: Security baseline validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - SECURITY-BASELINE.md
+      - scripts/Test-OrganizationSecurityBaseline.ps1
+      - .github/workflows/security-baseline-validation.yml
+  push:
+    branches:
+      - main
+    paths:
+      - SECURITY-BASELINE.md
+      - scripts/Test-OrganizationSecurityBaseline.ps1
+      - .github/workflows/security-baseline-validation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate security baseline contract
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run baseline contract tests
+        shell: pwsh
+        run: ./scripts/Test-OrganizationSecurityBaseline.ps1 -SelfTest

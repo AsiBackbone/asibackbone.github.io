@@ -11,6 +11,7 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 | `sitemap.xml` | Sitemap for the landing page itself |
 | `images/` | Icon, favicon, and social preview image shared with the Learning site |
 | `.nojekyll` | Serves the files as-is, without a Jekyll build |
+| `OUTREACH-PLAN.md` | Maintainer-owned audience, publication, community-participation, and measurement plan |
 
 Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
 
@@ -18,7 +19,7 @@ GitHub Actions dependencies are maintained by Dependabot and reviewed by depende
 
 Pull-request flow, required checks, merge behavior, and the recovery-only bypass are documented in [REPOSITORY-GOVERNANCE.md](REPOSITORY-GOVERNANCE.md).
 
-Pull-request flow, required checks, merge behavior, and the recovery-only bypass are documented in [REPOSITORY-GOVERNANCE.md](REPOSITORY-GOVERNANCE.md).
+Organization-wide outreach, its initial 90-day calendar, and the reusable publication checklist are documented in [OUTREACH-PLAN.md](OUTREACH-PLAN.md).
 
 ## Relationship to the project sites
 

@@ -25,3 +25,7 @@ jobs:
       - name: Validate HTML and crawler metadata
         shell: pwsh
         run: ./scripts/Test-LandingSite.ps1
+
+      - name: Validate outreach plan
+        shell: pwsh
+        run: ./scripts/Test-OutreachPlan.ps1

@@ -52,6 +52,33 @@ if ($indexPath) {
         }
     }
 
+    $requiredCommunityRoutes = [ordered]@{
+        'https://asibackbone.github.io/Learning/' = 'Learning entry route'
+        'https://github.com/orgs/AsiBackbone/discussions/categories/q-a' = 'organization Q&A route'
+        'https://github.com/orgs/AsiBackbone/discussions/categories/ideas' = 'organization Ideas route'
+        'https://github.com/orgs/AsiBackbone/discussions/categories/architecture-integration' = 'organization architecture route'
+        'https://github.com/AsiBackbone/Learning/blob/main/CONTRIBUTING.md' = 'Learning contribution route'
+        'https://github.com/AsiBackbone/AsiBackbone/blob/main/CONTRIBUTING.md' = 'AsiBackbone contribution route'
+        'https://github.com/AsiBackbone/NetCoreApplicationTemplate/blob/main/CONTRIBUTING.md' = 'template contribution route'
+        'https://github.com/AsiBackbone/Learning/security/policy' = 'Learning security route'
+        'https://github.com/AsiBackbone/AsiBackbone/security/policy' = 'AsiBackbone security route'
+        'https://github.com/AsiBackbone/NetCoreApplicationTemplate/security/policy' = 'template security route'
+    }
+
+    foreach ($entry in $requiredCommunityRoutes.GetEnumerator()) {
+        if (-not $html.Contains('href="' + $entry.Key + '"', [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing its $($entry.Value)."
+        }
+    }
+
+    if (-not $html.Contains('a:focus-visible', [StringComparison]::Ordinal)) {
+        Add-Failure 'index.html must retain a visible keyboard-focus treatment for links.'
+    }
+
+    if ($html -match '(?i)tabindex\s*=\s*["'']?[1-9]') {
+        Add-Failure 'index.html must not define a positive tabindex.'
+    }
+
     $jsonLdMatch = [regex]::Match(
         $html,
         '<script\s+type="application/ld\+json">(?<json>.*?)</script>',

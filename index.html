@@ -99,6 +99,14 @@
 
     h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; }
 
+    .community-intro { color: var(--muted); max-width: 48em; }
+    .routes { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
+    .route { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+    .route h3 { font-size: 1.1rem; margin: 0 0 .4rem; }
+    .route p { color: var(--muted); margin: 0 0 .65rem; }
+    .route p:last-child { margin-bottom: 0; }
+    .route .links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; font-size: .95rem; }
+
     .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
 
     .project {
@@ -150,6 +158,7 @@
       <a class="brand" href="https://asibackbone.github.io/">AsiBackbone</a>
       <nav aria-label="Sites">
         <a href="https://asibackbone.github.io/Learning/">Learning</a>
+        <a href="#community">Community</a>
         <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
         <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
         <a href="https://github.com/AsiBackbone">GitHub</a>
@@ -162,6 +171,35 @@
       <h1 id="hero-title">Why this outcome was permitted, under which policy, with what evidence.</h1>
       <p>AsiBackbone is an open-source organization for practical .NET governance and architecture. Most applications don't need a governance layer. When you do need one, because you have to explain why an operation was permitted, under which policy, and with what evidence, these are the patterns and the working implementations.</p>
       <p>The organization maintains three related projects covering policy-as-code, auditable decision systems, capability-based authorization, host-owned execution boundaries, AI governance, and secure ASP.NET Core application architecture.</p>
+    </section>
+
+    <section id="community" aria-labelledby="community-title">
+      <h2 id="community-title">Learn, ask, and contribute</h2>
+      <p class="community-intro">Learning is the first stop for understanding the patterns. Use organization Discussions when a question or proposal spans projects; use a repository's own Discussions, issues, and guidance for project-specific support or changes.</p>
+      <div class="routes">
+        <article class="route">
+          <h3><a href="https://asibackbone.github.io/Learning/">Start learning</a></h3>
+          <p>Read tutorials, run labs, and compare the patterns with simpler alternatives before choosing an implementation.</p>
+        </article>
+        <article class="route">
+          <h3><a href="https://github.com/orgs/AsiBackbone/discussions/categories/q-a">Ask a cross-project question</a></h3>
+          <p>Use organization Q&amp;A for questions that span repositories or concern AsiBackbone as a whole.</p>
+        </article>
+        <article class="route">
+          <h3>Propose or debate an idea</h3>
+          <p>Use <a href="https://github.com/orgs/AsiBackbone/discussions/categories/ideas">Ideas</a> for proposals or <a href="https://github.com/orgs/AsiBackbone/discussions/categories/architecture-integration">Architecture &amp; Integration</a> for cross-project design discussion.</p>
+        </article>
+        <article class="route">
+          <h3>Contribute to a project</h3>
+          <p>Choose the repository affected and follow its contribution guidance.</p>
+          <p class="links"><a href="https://github.com/AsiBackbone/Learning/blob/main/CONTRIBUTING.md">Learning</a><a href="https://github.com/AsiBackbone/AsiBackbone/blob/main/CONTRIBUTING.md">Framework</a><a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate/blob/main/CONTRIBUTING.md">Template</a></p>
+        </article>
+        <article class="route">
+          <h3>Report a sensitive security concern</h3>
+          <p>Do not post vulnerability details publicly. Follow the affected repository's private reporting policy.</p>
+          <p class="links"><a href="https://github.com/AsiBackbone/Learning/security/policy">Learning</a><a href="https://github.com/AsiBackbone/AsiBackbone/security/policy">Framework</a><a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate/security/policy">Template</a></p>
+        </article>
+      </div>
     </section>
 
     <section aria-labelledby="projects-title">

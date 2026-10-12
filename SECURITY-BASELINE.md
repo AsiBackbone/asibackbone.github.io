@@ -48,6 +48,59 @@ Workflow files establish the intended automation. A committed file is not eviden
 
 ## OpenSSF Scorecard finding disposition
 
+### Triage policy
+
+Scorecard remains enabled because its findings are useful prompts, but a high
+SARIF severity does not by itself establish that a control applies to every
+repository. For static content and organization-support repositories:
+
+1. Remediate findings that identify a control missing from the repository's
+   actual source, workflow, or publishing surface.
+2. Dismiss an accurately detected but non-applicable or deliberately accepted
+   finding as `won't fix`, with a comment that names the verified repository
+   scope, compensating controls, and the condition that requires reconsideration.
+3. Reserve `false positive` for a finding whose underlying observation is
+   factually incorrect. Do not use it merely because the recommended control is
+   disproportionate.
+4. Let a fresh Scorecard analysis close remediated findings when practical. If
+   rolling history still describes pre-remediation commits, record that evidence
+   in the dismissal comment.
+5. Recheck the repository scope whenever executable code, a distributable
+   artifact, an untrusted-input surface, or another active maintainer is added.
+
+The `Maintained` check is a special age gate: Scorecard cannot assess a repository
+until it is more than 90 days old and explicitly says there is no remediation for
+the resulting low score. An age-only alert may therefore be dismissed as
+`won't fix` after confirming that the repository is not archived and has recent
+activity. It is not a `false positive`, because Scorecard correctly observed the
+repository age. Review the check again after the eligibility date and treat any
+later inactivity finding as a new maintenance signal.
+
+### 2026-10-12 triage record
+
+The live code-scanning API was reviewed for every alert named in issue #17. The
+SAST findings were remediated with CodeQL for GitHub Actions. Fuzzing and
+CII-Best-Practices do not apply to the supporting repositories' current static
+scope. The CI-Tests finding described pre-validation history. Branch-Protection
+and Code-Review remain documented solo-maintainer tradeoffs. Each of those
+findings is resolved with its repository-specific evidence in the GitHub alert.
+
+The only remaining findings were age-only `Maintained` alerts. Before dismissal,
+the API confirmed that all three repositories were unarchived and had activity
+on 2026-10-12. Their 90-day eligibility dates are:
+
+| Repository | Alert | Eligible for assessment |
+| --- | --- | --- |
+| `.github` | #4 | 2026-11-09 |
+| `Learning` | #5 | 2026-11-10 |
+| `asibackbone.github.io` | #5 | 2026-12-26 |
+
+Review each result on or after its eligibility date. An alert that then reports
+insufficient activity requires maintenance triage rather than an automatic
+dismissal.
+
+### Repository-specific controls
+
 The supporting repositories apply Scorecard findings according to their actual
 scope rather than treating every heuristic as a universal requirement:
 

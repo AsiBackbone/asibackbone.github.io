@@ -18,7 +18,7 @@ Organization identity, new-repository defaults, supporting-repository controls, 
 
 Repository metadata that affects documentation routing, including the organization-wide wiki policy, is documented in [REPOSITORY-METADATA-BASELINE.md](REPOSITORY-METADATA-BASELINE.md).
 
-GitHub Actions dependencies are maintained by Dependabot and reviewed by dependency-review, zizmor, actionlint, and OpenSSF Scorecard workflows using immutable action pins.
+GitHub Actions dependencies are maintained by Dependabot and reviewed by dependency-review, CodeQL, zizmor, actionlint, and OpenSSF Scorecard workflows using immutable action pins.
 
 Pull-request flow, required checks, merge behavior, and the recovery-only bypass are documented in [REPOSITORY-GOVERNANCE.md](REPOSITORY-GOVERNANCE.md).
 

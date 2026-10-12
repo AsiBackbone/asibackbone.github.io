@@ -20,10 +20,14 @@ The supporting repositories also maintain a proportionate source-controlled auto
 
 - weekly, grouped Dependabot version updates for GitHub Actions;
 - dependency review on pull requests;
+- CodeQL analysis of GitHub Actions workflows on every pull request, every push
+  to `main`, and a weekly schedule;
 - weekly and change-triggered zizmor and actionlint analysis of workflow changes; and
 - weekly OpenSSF Scorecard analysis with SARIF uploaded to GitHub code scanning.
 
-OWASP Dependency-Check and application-language CodeQL jobs remain with repositories that contain the corresponding package graphs and executable source.
+OWASP Dependency-Check and application-language CodeQL jobs remain with
+repositories that contain the corresponding package graphs and executable
+source.
 
 ## Verified hosted state
 
@@ -41,6 +45,27 @@ These are hosted settings. Their state is verified by the script and is not infe
 The two supporting repositories keep the same GitHub Actions dependency-update schedule and pinned supply-chain scanning actions as the primary repositories. Their local validation scripts require these workflow files and reject action references that are not pinned to a full commit SHA or container digest.
 
 Workflow files establish the intended automation. A committed file is not evidence that a scheduled job has run successfully; confirm current results in each repository's Actions and Security views.
+
+## OpenSSF Scorecard finding disposition
+
+The supporting repositories apply Scorecard findings according to their actual
+scope rather than treating every heuristic as a universal requirement:
+
+- CodeQL analyzes GitHub Actions workflows on every pull request and push to
+  `main`. This is the supported SAST surface in repositories without application
+  source.
+- The landing-site validation workflow runs on every pull request and push to
+  `main`. A CI-tests warning can temporarily reflect historical pull requests
+  from before that workflow existed rather than a current coverage gap.
+- Fuzzing is not adopted because this static landing repository has no service,
+  library, parser, or untrusted runtime input surface. Reconsider this decision
+  if executable application or request-handling code is added.
+- The branch-protection and code-review findings reflect the documented
+  solo-maintainer tradeoff in `REPOSITORY-GOVERNANCE.md`. The active ruleset
+  still blocks deletion and force pushes and requires pull requests, resolved
+  conversations, linear history, and the strict landing-site validation check.
+  Reconsider required approvals and Code Owner review when an independent active
+  maintainer is available.
 
 ## Identity control and temporary exception
 
@@ -75,7 +100,11 @@ Record the review date, reviewer, command result, and any exception with an owne
 ## Scope and limitations
 
 - The built-in **GitHub recommended** configuration is not attached organization-wide because it enables CodeQL default setup. Learning already uses advanced CodeQL setup, and each executable-code repository owns that choice.
-- Application-source CodeQL is not configured for `.github` or `asibackbone.github.io` because they contain no executable application code. Workflow and supply-chain findings from zizmor and OpenSSF Scorecard are uploaded to GitHub code scanning.
+- Application-language CodeQL is not configured for `.github` or
+  `asibackbone.github.io` because they contain no executable application code.
+  Their GitHub Actions workflows are analyzed with CodeQL, while workflow and
+  supply-chain findings from zizmor and OpenSSF Scorecard are also uploaded to
+  GitHub code scanning.
 - Advanced features that GitHub reports as unavailable for the current plan are recorded as unavailable rather than enabled.
 - Signed commits are not required by this baseline.
 - Repository rulesets, release environments, publishing credentials, and package controls remain repository-specific.

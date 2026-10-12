@@ -32,11 +32,13 @@ $licensePath = Get-RequiredFile 'LICENSE'
 $codeLicensePath = Get-RequiredFile 'LICENSE-CODE'
 $licenseScopePath = Get-RequiredFile 'LICENSES.md'
 $assetLicensePath = Get-RequiredFile 'ASSETS-LICENSES.md'
+$securityBaselinePath = Get-RequiredFile 'SECURITY-BASELINE.md'
 $editorConfigPath = Get-RequiredFile '.editorconfig'
 $gitAttributesPath = Get-RequiredFile '.gitattributes'
 $gitIgnorePath = Get-RequiredFile '.gitignore'
 $dependabotPath = Get-RequiredFile '.github/dependabot.yml'
 $dependencyReviewPath = Get-RequiredFile '.github/workflows/dependency-review.yml'
+$codeqlPath = Get-RequiredFile '.github/workflows/codeql.yml'
 $workflowSecurityPath = Get-RequiredFile '.github/workflows/workflow-security.yml'
 $scorecardPath = Get-RequiredFile '.github/workflows/openssf-scorecard.yml'
 
@@ -181,6 +183,21 @@ if ($assetLicensePath) {
     }
 }
 
+if ($securityBaselinePath) {
+    $securityBaseline = Get-Content -LiteralPath $securityBaselinePath -Raw
+    foreach ($requiredText in @(
+        '## OpenSSF Scorecard finding disposition'
+        'CodeQL analyzes GitHub Actions workflows on every pull request'
+        'A CI-tests warning can temporarily reflect historical pull requests'
+        'Fuzzing is not adopted because this static landing repository'
+        'The branch-protection and code-review findings reflect the documented'
+    )) {
+        if (-not $securityBaseline.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "SECURITY-BASELINE.md is missing its '$requiredText' control disposition."
+        }
+    }
+}
+
 if ($editorConfigPath -and -not (Get-Content -LiteralPath $editorConfigPath -Raw).Contains('root = true', [StringComparison]::Ordinal)) {
     Add-Failure '.editorconfig must declare itself as the top-level configuration.'
 }
@@ -204,6 +221,7 @@ if ($dependabotPath) {
 
 $securityWorkflowContracts = [ordered]@{
     '.github/workflows/dependency-review.yml' = @('name: Dependency Review', 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294', 'fail-on-severity: moderate')
+    '.github/workflows/codeql.yml' = @('name: CodeQL Analysis', 'pull_request:', 'push:', 'languages: actions', 'github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d', 'github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d')
     '.github/workflows/workflow-security.yml' = @('name: GitHub Actions security analysis', 'zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482', 'advanced-security: true', 'docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667')
     '.github/workflows/openssf-scorecard.yml' = @('name: OpenSSF Scorecard supply-chain security', 'ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc', 'publish_results: true', 'github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d')
 }

@@ -1,6 +1,6 @@
 # Repository metadata baseline
 
-Last reviewed: 2026-10-11
+Last reviewed: 2026-10-12
 
 This baseline records organization-wide repository settings that affect where maintainers and users find authoritative information. These are GitHub-hosted settings, so their state must be read from the GitHub API rather than inferred from files in a checkout.
 
@@ -17,19 +17,25 @@ The `.github` repository owns the public organization profile and default commun
 
 An empty or independently edited wiki would create a second documentation surface outside the established review and publication flow. New or transferred repositories should therefore start with the wiki disabled unless a later, documented decision establishes a distinct need and ownership model.
 
+## Community conversation source of truth
+
+[AsiBackbone organization Discussions](https://github.com/orgs/AsiBackbone/discussions), backed by the `.github` repository, is the single public surface for questions, ideas, architecture, integration, and community examples. Project-specific posts identify the affected repository and version; reproducible defects and focused work remain in the owning repository's issue tracker. Suspected vulnerabilities remain private and follow the affected repository's security policy.
+
+Repository-specific Discussions are disabled to avoid splitting questions and proposals across parallel surfaces. Support files, contribution guidance, README community links, package guidance, and issue-form contact links route users to the organization surface. Existing welcome posts were preserved as [Learning community discussions](https://github.com/orgs/AsiBackbone/discussions/12) and [AsiBackbone package community discussions](https://github.com/orgs/AsiBackbone/discussions/13) before their repository Discussions were disabled. No NetCoreApplicationTemplate discussion required migration.
+
 ## Desired state
 
-| Repository | Wiki |
-| --- | --- |
-| `AsiBackbone/.github` | Disabled |
-| `AsiBackbone/asibackbone.github.io` | Disabled |
-| `AsiBackbone/AsiBackbone` | Disabled |
-| `AsiBackbone/Learning` | Disabled |
-| `AsiBackbone/NetCoreApplicationTemplate` | Disabled |
+| Repository | Wiki | Discussions |
+| --- | --- | --- |
+| `AsiBackbone/.github` | Disabled | Enabled (organization source) |
+| `AsiBackbone/asibackbone.github.io` | Disabled | Disabled |
+| `AsiBackbone/AsiBackbone` | Disabled | Disabled |
+| `AsiBackbone/Learning` | Disabled | Disabled |
+| `AsiBackbone/NetCoreApplicationTemplate` | Disabled | Disabled |
 
 ## Verification procedure
 
-The repository-metadata workflow runs weekly and can be dispatched manually. It reads each repository through the GitHub API and fails if a wiki is enabled:
+The repository-metadata workflow runs weekly and can be dispatched manually. It reads each repository through the GitHub API and fails if a wiki is enabled or if Discussions is not enabled exclusively on `.github`:
 
 ```powershell
 ./scripts/Test-RepositoryMetadataBaseline.ps1

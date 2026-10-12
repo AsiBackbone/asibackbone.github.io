@@ -12,15 +12,17 @@ $ErrorActionPreference = 'Stop'
 function New-Result {
     param(
         [string]$Repository,
-        [bool]$HasWiki
+        [string]$Control,
+        [string]$Expected,
+        [string]$Actual
     )
 
     [pscustomobject]@{
         Repository = $Repository
-        Control = 'wiki'
-        Expected = 'disabled'
-        Actual = $(if ($HasWiki) { 'enabled' } else { 'disabled' })
-        Status = $(if ($HasWiki) { 'Fail' } else { 'Pass' })
+        Control = $Control
+        Expected = $Expected
+        Actual = $Actual
+        Status = $(if ($Expected -eq $Actual) { 'Pass' } else { 'Fail' })
     }
 }
 
@@ -29,7 +31,12 @@ function Test-RepositoryMetadataBaseline {
 
     $results = [System.Collections.Generic.List[object]]::new()
     foreach ($repository in @($RepositoryStates.Keys | Sort-Object)) {
-        $results.Add((New-Result -Repository $repository -HasWiki ([bool]$RepositoryStates[$repository].has_wiki)))
+        $wikiState = if ([bool]$RepositoryStates[$repository].has_wiki) { 'enabled' } else { 'disabled' }
+        $discussionState = if ([bool]$RepositoryStates[$repository].has_discussions) { 'enabled' } else { 'disabled' }
+        $expectedDiscussionState = if ($repository -eq '.github') { 'enabled' } else { 'disabled' }
+
+        $results.Add((New-Result -Repository $repository -Control 'wiki' -Expected 'disabled' -Actual $wikiState))
+        $results.Add((New-Result -Repository $repository -Control 'discussions' -Expected $expectedDiscussionState -Actual $discussionState))
     }
 
     return $results
@@ -38,23 +45,39 @@ function Test-RepositoryMetadataBaseline {
 function Invoke-SelfTest {
     $failures = [System.Collections.Generic.List[string]]::new()
     $compliantStates = @{
-        '.github' = [pscustomobject]@{ has_wiki = $false }
-        'asibackbone.github.io' = [pscustomobject]@{ has_wiki = $false }
-        'AsiBackbone' = [pscustomobject]@{ has_wiki = $false }
-        'Learning' = [pscustomobject]@{ has_wiki = $false }
-        'NetCoreApplicationTemplate' = [pscustomobject]@{ has_wiki = $false }
+        '.github' = [pscustomobject]@{ has_wiki = $false; has_discussions = $true }
+        'asibackbone.github.io' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
+        'AsiBackbone' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
+        'Learning' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
+        'NetCoreApplicationTemplate' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
     }
 
     $compliant = @(Test-RepositoryMetadataBaseline $compliantStates)
-    if ($compliant.Count -ne 5 -or @($compliant | Where-Object Status -ne 'Pass').Count -ne 0) {
-        $failures.Add('A compliant five-repository baseline did not pass every check.')
+    if ($compliant.Count -ne 10 -or @($compliant | Where-Object Status -ne 'Pass').Count -ne 0) {
+        $failures.Add('A compliant five-repository baseline did not pass all ten checks.')
     }
 
-    $compliantStates['Learning'] = [pscustomobject]@{ has_wiki = $true }
+    $compliantStates['Learning'].has_wiki = $true
     $drift = @(Test-RepositoryMetadataBaseline $compliantStates)
     $failed = @($drift | Where-Object Status -eq 'Fail')
-    if ($failed.Count -ne 1 -or $failed[0].Repository -ne 'Learning') {
+    if ($failed.Count -ne 1 -or $failed[0].Repository -ne 'Learning' -or $failed[0].Control -ne 'wiki') {
         $failures.Add('An enabled wiki was not reported as repository metadata drift.')
+    }
+
+    $compliantStates['Learning'].has_wiki = $false
+    $compliantStates['Learning'].has_discussions = $true
+    $drift = @(Test-RepositoryMetadataBaseline $compliantStates)
+    $failed = @($drift | Where-Object Status -eq 'Fail')
+    if ($failed.Count -ne 1 -or $failed[0].Repository -ne 'Learning' -or $failed[0].Control -ne 'discussions') {
+        $failures.Add('Repository-specific Discussions were not reported as repository metadata drift.')
+    }
+
+    $compliantStates['Learning'].has_discussions = $false
+    $compliantStates['.github'].has_discussions = $false
+    $drift = @(Test-RepositoryMetadataBaseline $compliantStates)
+    $failed = @($drift | Where-Object Status -eq 'Fail')
+    if ($failed.Count -ne 1 -or $failed[0].Repository -ne '.github' -or $failed[0].Control -ne 'discussions') {
+        $failures.Add('A disabled organization Discussions source was not reported as repository metadata drift.')
     }
 
     if ($failures.Count -gt 0) {

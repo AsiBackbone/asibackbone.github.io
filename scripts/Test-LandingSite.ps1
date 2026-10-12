@@ -187,6 +187,15 @@ if ($securityBaselinePath) {
     $securityBaseline = Get-Content -LiteralPath $securityBaselinePath -Raw
     foreach ($requiredText in @(
         '## OpenSSF Scorecard finding disposition'
+        '### Triage policy'
+        'Reserve `false positive` for a finding whose underlying observation is'
+        'The `Maintained` check is a special age gate'
+        'It is not a `false positive`, because Scorecard correctly observed the'
+        '### 2026-10-12 triage record'
+        '| `.github` | #4 | 2026-11-09 |'
+        '| `Learning` | #5 | 2026-11-10 |'
+        '| `asibackbone.github.io` | #5 | 2026-12-26 |'
+        '### Repository-specific controls'
         'CodeQL analyzes GitHub Actions workflows on every pull request'
         'A CI-tests warning can temporarily reflect historical pull requests'
         'Fuzzing is not adopted because this static landing repository'

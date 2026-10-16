@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AsiBackbone | Open-source .NET governance and architecture patterns</title>
-  <meta name="description" content="Why this outcome was permitted, under which policy, with what evidence. Open-source .NET governance, secure ASP.NET Core architecture, and practical learning material from AsiBackbone.">
+  <meta name="description" content="Open-source .NET governance, secure ASP.NET Core architecture, practical learning material, and a step-by-step NCAT-to-AsiBackbone reference application.">
   <meta name="google-site-verification" content="R9IrfghOCGIgoGKd3mtDyPs_iTMXCVltPrGBNPVnFtA">
   <link rel="canonical" href="https://asibackbone.github.io/">
   <link rel="icon" href="images/favicon.ico">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AsiBackbone">
   <meta property="og:title" content="AsiBackbone — open-source .NET governance and architecture patterns">
-  <meta property="og:description" content="Policy-governed decision pipelines, a secure-by-default ASP.NET Core template, and practical architecture learning material for .NET.">
+  <meta property="og:description" content="Policy-governed decision pipelines, a secure-by-default ASP.NET Core template, practical architecture learning, and a concrete Reference Application showing NCAT-to-AsiBackbone integration.">
   <meta property="og:url" content="https://asibackbone.github.io/">
   <meta property="og:image" content="https://asibackbone.github.io/images/asibackbone-social.png">
   <meta property="og:image:alt" content="AsiBackbone — practical .NET architecture, security, and governed execution">
@@ -107,7 +107,9 @@
     .route p:last-child { margin-bottom: 0; }
     .route .links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; font-size: .95rem; }
 
-    .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+    .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(18rem, 1fr)); }
+
+    @media (max-width: 42rem) { .projects { grid-template-columns: 1fr; } }
 
     .project {
       background: var(--surface);
@@ -161,6 +163,7 @@
         <a href="#community">Community</a>
         <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
         <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
+        <a href="https://asibackbone.github.io/ReferenceApplication/">Reference</a>
         <a href="https://github.com/AsiBackbone">GitHub</a>
       </nav>
     </div>
@@ -170,7 +173,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <h1 id="hero-title">Why this outcome was permitted, under which policy, with what evidence.</h1>
       <p>AsiBackbone is an open-source organization for practical .NET governance and architecture. Most applications don't need a governance layer. When you do need one, because you have to explain why an operation was permitted, under which policy, and with what evidence, these are the patterns and the working implementations.</p>
-      <p>The organization maintains three related projects covering policy-as-code, auditable decision systems, capability-based authorization, host-owned execution boundaries, AI governance, and secure ASP.NET Core application architecture.</p>
+      <p>The organization maintains four related projects covering policy-as-code, auditable decision systems, capability-based authorization, host-owned execution boundaries, AI governance, secure ASP.NET Core application architecture, and a concrete NCAT-to-AsiBackbone integration walkthrough.</p>
     </section>
 
     <section id="community" aria-labelledby="community-title">
@@ -235,6 +238,25 @@
             <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Documentation</a>
             <a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate">Repository</a>
             <a href="https://doi.org/10.5281/zenodo.20373042">Archive (DOI)</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <span class="role">Follow the integration</span>
+          <h3>
+            <a href="https://asibackbone.github.io/ReferenceApplication/">
+              AsiBackbone Reference Application
+            </a>
+          </h3>
+          <p>
+            An NCAT-generated ASP.NET Core host that records the step-by-step
+            integration of AsiBackbone. Follow the walkthrough from the preserved
+            NCAT baseline through package integration, governance rules, governed
+            endpoints, and audit evidence.
+          </p>
+          <div class="links">
+            <a href="https://asibackbone.github.io/ReferenceApplication/">Documentation</a>
+            <a href="https://github.com/AsiBackbone/ReferenceApplication">Repository</a>
           </div>
         </article>
       </div>

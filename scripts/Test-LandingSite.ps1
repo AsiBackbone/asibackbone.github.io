@@ -229,10 +229,19 @@ if ($dependabotPath) {
 }
 
 $securityWorkflowContracts = [ordered]@{
-    '.github/workflows/dependency-review.yml' = @('name: Dependency Review', 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294', 'fail-on-severity: moderate')
-    '.github/workflows/codeql.yml' = @('name: CodeQL Analysis', 'pull_request:', 'push:', 'languages: actions', 'github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d', 'github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d')
-    '.github/workflows/workflow-security.yml' = @('name: GitHub Actions security analysis', 'zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482', 'advanced-security: true', 'docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667')
-    '.github/workflows/openssf-scorecard.yml' = @('name: OpenSSF Scorecard supply-chain security', 'ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc', 'publish_results: true', 'github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d')
+    '.github/workflows/dependency-review.yml' = @('name: Dependency Review', 'fail-on-severity: moderate')
+    '.github/workflows/codeql.yml' = @('name: CodeQL Analysis', 'pull_request:', 'push:', 'languages: actions')
+    '.github/workflows/workflow-security.yml' = @('name: GitHub Actions security analysis', 'advanced-security: true', 'docker://rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667')
+    '.github/workflows/openssf-scorecard.yml' = @('name: OpenSSF Scorecard supply-chain security', 'publish_results: true')
+}
+
+# Required actions are checked by name and commit-SHA form, not by a specific SHA, so Dependabot
+# version updates satisfy the contract. The workflow loop below still rejects unpinned references.
+$requiredPinnedActions = [ordered]@{
+    '.github/workflows/dependency-review.yml' = @('actions/dependency-review-action')
+    '.github/workflows/codeql.yml' = @('github/codeql-action/init', 'github/codeql-action/analyze')
+    '.github/workflows/workflow-security.yml' = @('zizmorcore/zizmor-action')
+    '.github/workflows/openssf-scorecard.yml' = @('ossf/scorecard-action', 'github/codeql-action/upload-sarif')
 }
 
 foreach ($contract in $securityWorkflowContracts.GetEnumerator()) {
@@ -245,6 +254,21 @@ foreach ($contract in $securityWorkflowContracts.GetEnumerator()) {
     foreach ($requiredText in $contract.Value) {
         if (-not $workflowContent.Contains($requiredText, [StringComparison]::Ordinal)) {
             Add-Failure "$($contract.Key) is missing required content: $requiredText"
+        }
+    }
+}
+
+foreach ($contract in $requiredPinnedActions.GetEnumerator()) {
+    $workflowPath = Join-Path $RepositoryRoot $contract.Key
+    if (-not (Test-Path -LiteralPath $workflowPath -PathType Leaf)) {
+        continue
+    }
+
+    $workflowContent = Get-Content -LiteralPath $workflowPath -Raw
+    foreach ($requiredAction in $contract.Value) {
+        $pinnedUsePattern = '(?m)^\s*(?:-\s+)?uses:\s*' + [regex]::Escape($requiredAction) + '@[0-9a-f]{40}(?:\s|$)'
+        if ($workflowContent -notmatch $pinnedUsePattern) {
+            Add-Failure "$($contract.Key) must use $requiredAction pinned to a full commit SHA."
         }
     }
 }

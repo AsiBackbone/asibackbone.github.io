@@ -180,9 +180,9 @@ if ($licenseScopePath) {
 if ($assetLicensePath) {
     $assetLicense = Get-Content -LiteralPath $assetLicensePath -Raw
     $expectedAssetHashes = [ordered]@{
-        'images/asibackbone-icon-50.png' = 'A7D5AF4069DF86398EFACFCE3ADC8AE51BFC5BE81AB58EE3052219998EA0A01E'
-        'images/asibackbone-social.png' = '8EB614CBCAE9B53577F434E0E458D11106581CBEC8FC82F944E17E75403B5C35'
-        'images/favicon.ico' = '91A4AB87978D184009821BFDC6C6BEC0D6F00E364B420D630B64122F19D1F5D8'
+        'images/asibackbone-icon-50.png' = 'A0AE4385961155EF9155A8C6BD85AEC2BE7C7002773CBC22292D972FB0F52FCA'
+        'images/asibackbone-social.png' = 'C1B942F50D40A2274B43CFDD8E9FE77F24AE4BA2D3E2287ECDEA5C39EA0CC4EB'
+        'images/favicon.ico' = '52DF4FBAF8D4F8D202CAB9309AFCB05BD0012BF59A0ADEA964B22BF35B6FDBEA'
     }
 
     foreach ($entry in $expectedAssetHashes.GetEnumerator()) {

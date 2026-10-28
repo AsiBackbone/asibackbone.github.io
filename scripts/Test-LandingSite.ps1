@@ -77,6 +77,20 @@ if ($indexPath) {
         }
     }
 
+    foreach ($requiredText in @(
+        'A reusable, production-oriented ASP.NET Core baseline with secure defaults'
+        'It is not a finished, penetration-tested, or certified application'
+        'each generated application still requires application-specific configuration, threat analysis, deployment controls, testing, and security review.'
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing the NCAT product-boundary statement: $requiredText"
+        }
+    }
+
+    if ($html -match '(?i)production-ready|enterprise application template') {
+        Add-Failure 'index.html overstates the NCAT boundary; use production-oriented baseline terminology.'
+    }
+
     if (-not $html.Contains('a:focus-visible', [StringComparison]::Ordinal)) {
         Add-Failure 'index.html must retain a visible keyboard-focus treatment for links.'
     }

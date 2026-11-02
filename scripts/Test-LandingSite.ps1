@@ -26,6 +26,7 @@ function Get-RequiredFile {
 }
 
 $indexPath = Get-RequiredFile 'index.html'
+$readmePath = Get-RequiredFile 'README.md'
 $robotsPath = Get-RequiredFile 'robots.txt'
 $sitemapPath = Get-RequiredFile 'sitemap.xml'
 $licensePath = Get-RequiredFile 'LICENSE'
@@ -63,18 +64,37 @@ if ($indexPath) {
         'https://github.com/orgs/AsiBackbone/discussions/categories/q-a' = 'organization Q&A route'
         'https://github.com/orgs/AsiBackbone/discussions/categories/ideas' = 'organization Ideas route'
         'https://github.com/orgs/AsiBackbone/discussions/categories/architecture-integration' = 'organization architecture route'
+        'https://github.com/AsiBackbone/Learning/issues' = 'Learning issue route'
+        'https://github.com/AsiBackbone/AsiBackbone/issues' = 'AsiBackbone issue route'
+        'https://github.com/AsiBackbone/NetCoreApplicationTemplate/issues' = 'template issue route'
+        'https://github.com/AsiBackbone/ReferenceApplication/issues' = 'Reference Application issue route'
         'https://github.com/AsiBackbone/Learning/blob/main/CONTRIBUTING.md' = 'Learning contribution route'
         'https://github.com/AsiBackbone/AsiBackbone/blob/main/CONTRIBUTING.md' = 'AsiBackbone contribution route'
         'https://github.com/AsiBackbone/NetCoreApplicationTemplate/blob/main/CONTRIBUTING.md' = 'template contribution route'
+        'https://github.com/AsiBackbone/.github/blob/main/CONTRIBUTING.md' = 'Reference Application contribution route'
         'https://github.com/AsiBackbone/Learning/security/policy' = 'Learning security route'
         'https://github.com/AsiBackbone/AsiBackbone/security/policy' = 'AsiBackbone security route'
         'https://github.com/AsiBackbone/NetCoreApplicationTemplate/security/policy' = 'template security route'
+        'https://github.com/AsiBackbone/ReferenceApplication/security/policy' = 'Reference Application security route'
     }
 
     foreach ($entry in $requiredCommunityRoutes.GetEnumerator()) {
         if (-not $html.Contains('href="' + $entry.Key + '"', [StringComparison]::Ordinal)) {
             Add-Failure "index.html is missing its $($entry.Value)."
         }
+    }
+
+    foreach ($requiredText in @(
+        'Use organization Q&amp;A for project-specific and cross-project questions, and name the affected repository and version.'
+        "Route concrete work to the affected repository's issues and contribution guidance."
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing required support-routing guidance: $requiredText"
+        }
+    }
+
+    if ($html -match 'https://github\.com/AsiBackbone/(?:Learning|AsiBackbone|NetCoreApplicationTemplate|ReferenceApplication)/discussions') {
+        Add-Failure 'index.html must not route readers to a project repository Discussions surface.'
     }
 
     foreach ($requiredText in @(
@@ -123,6 +143,23 @@ if ($indexPath) {
         if (-not (Test-Path -LiteralPath (Join-Path $RepositoryRoot $relativePath) -PathType Leaf)) {
             Add-Failure "index.html references a missing local file: $($match.Groups['path'].Value)"
         }
+    }
+}
+
+if ($readmePath) {
+    $readme = Get-Content -LiteralPath $readmePath -Raw
+    foreach ($projectSite in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate', 'ReferenceApplication')) {
+        if (-not $readme.Contains("https://asibackbone.github.io/$projectSite/", [StringComparison]::Ordinal)) {
+            Add-Failure "README.md is missing the $projectSite project-site path."
+        }
+    }
+
+    if (-not $readme.Contains('linking the four projects', [StringComparison]::Ordinal)) {
+        Add-Failure 'README.md must describe index.html as linking the four projects.'
+    }
+
+    if (-not $readme.Contains('`ReferenceApplication`', [StringComparison]::Ordinal)) {
+        Add-Failure 'README.md must reserve the ReferenceApplication project-site path.'
     }
 }
 
@@ -297,7 +334,7 @@ foreach ($workflowFile in Get-ChildItem -LiteralPath (Join-Path $RepositoryRoot 
     }
 }
 
-foreach ($reservedPath in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate')) {
+foreach ($reservedPath in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate', 'ReferenceApplication')) {
     if (Test-Path -LiteralPath (Join-Path $RepositoryRoot $reservedPath)) {
         Add-Failure "Reserved project-site path exists in the landing repository: $reservedPath"
     }

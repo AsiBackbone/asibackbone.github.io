@@ -6,7 +6,7 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Organization landing page linking the three projects, their documentation sites, and their archived DOIs |
+| `index.html` | Organization landing page linking the four projects, their documentation sites, and their available archived DOIs |
 | `robots.txt` | Crawler rules and `Sitemap:` lines. Crawlers only read `robots.txt` at the domain root, so this is the one place that can advertise the project sites' sitemaps |
 | `sitemap.xml` | Sitemap for the landing page itself |
 | `images/` | Icon, favicon, and social preview image shared with the Learning site |
@@ -31,8 +31,9 @@ The project repositories publish their own sites under this domain:
 - <https://asibackbone.github.io/Learning/>
 - <https://asibackbone.github.io/AsiBackbone/>
 - <https://asibackbone.github.io/NetCoreApplicationTemplate/>
+- <https://asibackbone.github.io/ReferenceApplication/>
 
-This repository must not contain folders named `Learning`, `AsiBackbone`, or `NetCoreApplicationTemplate`, because those paths belong to the project sites.
+This repository must not contain folders named `Learning`, `AsiBackbone`, `NetCoreApplicationTemplate`, or `ReferenceApplication`, because those paths belong to the project sites.
 
 When a project site starts publishing a sitemap, add its `Sitemap:` line to `robots.txt`.
 

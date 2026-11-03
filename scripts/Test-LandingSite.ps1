@@ -26,6 +26,10 @@ function Get-RequiredFile {
 }
 
 $indexPath = Get-RequiredFile 'index.html'
+$searchPath = Get-RequiredFile 'search/index.html'
+$searchScriptPath = Get-RequiredFile 'search/search.js'
+$searchStylesPath = Get-RequiredFile 'search/search.css'
+$siteSitemapPath = Get-RequiredFile 'site-sitemap.xml'
 $readmePath = Get-RequiredFile 'README.md'
 $robotsPath = Get-RequiredFile 'robots.txt'
 $sitemapPath = Get-RequiredFile 'sitemap.xml'
@@ -95,6 +99,7 @@ if ($indexPath) {
     }
 
     foreach ($requiredText in @(
+        '<a href="https://asibackbone.github.io/search/">Search</a>'
         '<a href="#funding">Funding</a>'
         '<section id="funding" aria-labelledby="funding-title">'
         '<h2 id="funding-title">Support AsiBackbone</h2>'
@@ -162,6 +167,40 @@ if ($indexPath) {
     }
 }
 
+if ($searchPath) {
+    $searchHtml = Get-Content -LiteralPath $searchPath -Raw
+    foreach ($requiredText in @(
+        '<html lang="en">'
+        '<link rel="canonical" href="https://asibackbone.github.io/search/">'
+        '<form id="organization-search" role="search" action="/search/" method="get">'
+        '<input id="search-query" name="q" type="search"'
+        '<p id="search-status" class="status" role="status" aria-live="polite"></p>'
+        '<script src="search.js" defer></script>'
+    )) {
+        if (-not $searchHtml.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "search/index.html is missing required organization-search content: $requiredText"
+        }
+    }
+}
+
+if ($searchScriptPath) {
+    $searchScript = Get-Content -LiteralPath $searchScriptPath -Raw
+    foreach ($requiredText in @(
+        'https://asibackbone.github.io/Learning/index.json'
+        'https://asibackbone.github.io/AsiBackbone/index.json'
+        'https://asibackbone.github.io/NetCoreApplicationTemplate/index.json'
+        'https://asibackbone.github.io/ReferenceApplication/index.json'
+        'Promise.allSettled'
+        'new URL(entry.href || key, source.base).href'
+        'link.textContent = result.entry.title'
+        'summary.textContent = result.entry.summary.length > 320'
+    )) {
+        if (-not $searchScript.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "search/search.js is missing required organization-search behavior: $requiredText"
+        }
+    }
+}
+
 if ($readmePath) {
     $readme = Get-Content -LiteralPath $readmePath -Raw
     foreach ($projectSite in @('Learning', 'AsiBackbone', 'NetCoreApplicationTemplate', 'ReferenceApplication')) {
@@ -199,6 +238,7 @@ if ($sitemapPath) {
         $namespaceManager.AddNamespace('sm', 'http://www.sitemaps.org/schemas/sitemap/0.9')
         $actualLocations = @($sitemap.SelectNodes('/sm:sitemapindex/sm:sitemap/sm:loc', $namespaceManager) | ForEach-Object InnerText | Sort-Object)
         $expectedLocations = @(
+            'https://asibackbone.github.io/site-sitemap.xml'
             'https://asibackbone.github.io/AsiBackbone/sitemap.xml'
             'https://asibackbone.github.io/Learning/sitemap.xml'
             'https://asibackbone.github.io/NetCoreApplicationTemplate/sitemap.xml'
@@ -210,6 +250,26 @@ if ($sitemapPath) {
     }
     catch {
         Add-Failure "sitemap.xml is invalid XML: $($_.Exception.Message)"
+    }
+}
+
+if ($siteSitemapPath) {
+    try {
+        [xml]$siteSitemap = Get-Content -LiteralPath $siteSitemapPath -Raw
+        $namespaceManager = [Xml.XmlNamespaceManager]::new($siteSitemap.NameTable)
+        $namespaceManager.AddNamespace('sm', 'http://www.sitemaps.org/schemas/sitemap/0.9')
+        $actualLocations = @($siteSitemap.SelectNodes('/sm:urlset/sm:url/sm:loc', $namespaceManager) | ForEach-Object InnerText | Sort-Object)
+        $expectedLocations = @(
+            'https://asibackbone.github.io/'
+            'https://asibackbone.github.io/search/'
+        ) | Sort-Object
+
+        if (($actualLocations -join "`n") -cne ($expectedLocations -join "`n")) {
+            Add-Failure "site-sitemap.xml must list exactly the organization landing page and search page. Found: $($actualLocations -join ', ')"
+        }
+    }
+    catch {
+        Add-Failure "site-sitemap.xml is invalid XML: $($_.Exception.Message)"
     }
 }
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search AsiBackbone documentation</title>
+  <meta name="description" content="Search Learning, Framework, Template, and Reference documentation from one AsiBackbone search page.">
+  <link rel="canonical" href="https://asibackbone.github.io/search/">
+  <link rel="icon" href="../images/favicon.ico">
+  <link rel="stylesheet" href="search.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to search</a>
+
+  <header class="site">
+    <div class="wrap">
+      <img src="../images/asibackbone-icon-50.png" alt="" width="36" height="36">
+      <a class="brand" href="https://asibackbone.github.io/">AsiBackbone</a>
+      <nav aria-label="Sites">
+        <a href="https://asibackbone.github.io/Learning/">Learning</a>
+        <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
+        <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
+        <a href="https://asibackbone.github.io/ReferenceApplication/">Reference</a>
+        <a href="https://asibackbone.github.io/#funding">Funding</a>
+        <a href="https://github.com/AsiBackbone">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="search-hero" aria-labelledby="search-title">
+      <p class="eyebrow">Organization documentation</p>
+      <h1 id="search-title">Search all AsiBackbone documentation</h1>
+      <p>Results cover Learning, Framework, Template, and Reference. Search indexes load only after you submit a query.</p>
+
+      <form id="organization-search" role="search" action="/search/" method="get">
+        <label for="search-query">What are you looking for?</label>
+        <div class="search-row">
+          <input id="search-query" name="q" type="search" autocomplete="off" placeholder="Try capability tokens or authorization" required>
+          <button type="submit">Search</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="search-output" class="search-output" aria-labelledby="results-title" hidden>
+      <div class="results-heading">
+        <div>
+          <h2 id="results-title">Results</h2>
+          <p id="search-status" class="status" role="status" aria-live="polite"></p>
+        </div>
+        <label class="site-filter" for="site-filter">
+          Site
+          <select id="site-filter">
+            <option value="all">All documentation</option>
+            <option value="learning">Learning</option>
+            <option value="framework">Framework</option>
+            <option value="template">Template</option>
+            <option value="reference">Reference</option>
+          </select>
+        </label>
+      </div>
+      <ol id="search-results" class="results"></ol>
+    </section>
+
+    <noscript>
+      <p class="notice">Organization search requires JavaScript. You can still browse the individual documentation sites using the links above.</p>
+    </noscript>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Searches public AsiBackbone documentation. Source content remains owned by its respective repository.</p>
+    </div>
+  </footer>
+
+  <script src="search.js" defer></script>
+</body>
+</html>

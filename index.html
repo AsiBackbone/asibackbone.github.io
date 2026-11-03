@@ -146,7 +146,8 @@
     footer p { margin: 0 0 .5rem; }
 
     @media (max-width: 36rem) {
-      header.site nav { display: none; }
+      header.site .wrap { flex-wrap: wrap; }
+      header.site nav { margin-left: 0; width: 100%; flex-wrap: wrap; gap: .35rem 1rem; }
       .hero { padding-top: 2.25rem; }
     }
   </style>
@@ -164,6 +165,7 @@
         <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
         <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
         <a href="https://asibackbone.github.io/ReferenceApplication/">Reference</a>
+        <a href="#funding">Funding</a>
         <a href="https://github.com/AsiBackbone">GitHub</a>
       </nav>
     </div>
@@ -273,6 +275,15 @@
         <p>We favor architectures where consequential operations are explicit, constrained, reviewable, and auditable.</p>
         <p>We also document when these patterns are unnecessary. See <a href="https://asibackbone.github.io/Learning/architecture/when-aspnet-core-authorization-is-enough.html">When ASP.NET Core Authorization Is Enough</a> and <a href="https://asibackbone.github.io/Learning/architecture/when-a-simple-application-service-is-enough.html">When a Simple Application Service Is Enough</a>.</p>
         <p>The projects focus on practical .NET engineering. They do not claim regulatory certification or automatic compliance.</p>
+      </div>
+    </section>
+
+    <section id="funding" aria-labelledby="funding-title">
+      <h2 id="funding-title">Support AsiBackbone</h2>
+      <div class="principles">
+        <p>AsiBackbone is developed and maintained as an open-source organization. Sponsorship helps support documentation, learning resources, project maintenance, infrastructure, and continued development.</p>
+        <p><a href="https://www.patreon.com/AsiBackbone">Support AsiBackbone on Patreon</a></p>
+        <p>Sponsorship is voluntary and does not provide roadmap priority, governance authority, or preferential technical support. You can also support the organization by <a href="#community">contributing to its open-source projects</a>.</p>
       </div>
     </section>
   </main>

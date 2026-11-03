@@ -6,7 +6,7 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Organization landing page linking the four projects, their documentation sites, and their available archived DOIs |
+| `index.html` | Organization landing page linking the four projects, their documentation sites, available archived DOIs, community routes, and the organization funding destination |
 | `robots.txt` | Crawler rules and `Sitemap:` lines. Crawlers only read `robots.txt` at the domain root, so this is the one place that can advertise the project sites' sitemaps |
 | `sitemap.xml` | Sitemap for the landing page itself |
 | `images/` | Icon, favicon, and social preview image shared with the Learning site |

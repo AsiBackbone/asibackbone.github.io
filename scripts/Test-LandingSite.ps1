@@ -76,6 +76,7 @@ if ($indexPath) {
         'https://github.com/AsiBackbone/AsiBackbone/security/policy' = 'AsiBackbone security route'
         'https://github.com/AsiBackbone/NetCoreApplicationTemplate/security/policy' = 'template security route'
         'https://github.com/AsiBackbone/ReferenceApplication/security/policy' = 'Reference Application security route'
+        'https://www.patreon.com/AsiBackbone' = 'organization Patreon funding route'
     }
 
     foreach ($entry in $requiredCommunityRoutes.GetEnumerator()) {
@@ -90,6 +91,17 @@ if ($indexPath) {
     )) {
         if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
             Add-Failure "index.html is missing required support-routing guidance: $requiredText"
+        }
+    }
+
+    foreach ($requiredText in @(
+        '<a href="#funding">Funding</a>'
+        '<section id="funding" aria-labelledby="funding-title">'
+        '<h2 id="funding-title">Support AsiBackbone</h2>'
+        'Sponsorship is voluntary and does not provide roadmap priority, governance authority, or preferential technical support.'
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing required funding content: $requiredText"
         }
     }
 
@@ -113,6 +125,10 @@ if ($indexPath) {
 
     if (-not $html.Contains('a:focus-visible', [StringComparison]::Ordinal)) {
         Add-Failure 'index.html must retain a visible keyboard-focus treatment for links.'
+    }
+
+    if ($html -match '(?is)@media\s*\(max-width:[^)]+\).*?header\.site\s+nav\s*\{[^}]*display:\s*none') {
+        Add-Failure 'index.html must keep the ecosystem navigation reachable at narrow viewport widths.'
     }
 
     if ($html -match '(?i)tabindex\s*=\s*["'']?[1-9]') {

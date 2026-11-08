@@ -99,7 +99,15 @@ if ($indexPath) {
     }
 
     foreach ($requiredText in @(
-        '<a href="https://asibackbone.github.io/search/">Search</a>'
+        '<form class="site-search" role="search" action="https://asibackbone.github.io/search/" method="get">'
+        '<input name="q" type="search"'
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing required organization-search entry point: $requiredText"
+        }
+    }
+
+    foreach ($requiredText in @(
         '<a href="#funding">Funding</a>'
         '<section id="funding" aria-labelledby="funding-title">'
         '<h2 id="funding-title">Support AsiBackbone</h2>'

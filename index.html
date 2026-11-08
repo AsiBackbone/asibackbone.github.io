@@ -88,10 +88,18 @@
     .skip-link:focus { left: 1rem; top: 1rem; background: var(--surface); padding: .5rem .75rem; z-index: 10; }
 
     header.site { border-bottom: 1px solid var(--border); background: var(--surface); }
-    header.site .wrap { display: flex; align-items: center; gap: .75rem; padding-top: .75rem; padding-bottom: .75rem; }
+    header.site .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding-top: .75rem; padding-bottom: .75rem; }
     header.site img { width: 36px; height: 36px; }
     header.site .brand { font-weight: 700; font-size: 1.15rem; color: var(--text); text-decoration: none; }
-    header.site nav { margin-left: auto; display: flex; gap: 1.25rem; font-size: .95rem; }
+    header.site nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: .35rem 1.25rem; font-size: .95rem; }
+    header.site .site-search { position: relative; display: flex; align-items: center; margin-left: auto; }
+    header.site .site-search svg { position: absolute; left: .65rem; color: var(--muted); pointer-events: none; }
+    header.site .site-search input {
+      width: 14rem; padding: .4rem .75rem .4rem 2rem;
+      font: inherit; font-size: .95rem; color: var(--text);
+      background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    }
+    header.site .site-search input:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
 
     .hero { padding: 3.5rem 0 2.5rem; }
     .hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); line-height: 1.2; margin: 0 0 1rem; max-width: 20em; }
@@ -148,6 +156,7 @@
     @media (max-width: 36rem) {
       header.site .wrap { flex-wrap: wrap; }
       header.site nav { margin-left: 0; width: 100%; flex-wrap: wrap; gap: .35rem 1rem; }
+      header.site .site-search, header.site .site-search input { width: 100%; }
       .hero { padding-top: 2.25rem; }
     }
   </style>
@@ -165,10 +174,13 @@
         <a href="https://asibackbone.github.io/AsiBackbone/">Framework</a>
         <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">Template</a>
         <a href="https://asibackbone.github.io/ReferenceApplication/">Reference</a>
-        <a href="https://asibackbone.github.io/search/">Search</a>
         <a href="#funding">Funding</a>
         <a href="https://github.com/AsiBackbone">GitHub</a>
       </nav>
+      <form class="site-search" role="search" action="https://asibackbone.github.io/search/" method="get">
+        <svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M11.7 10.3a6 6 0 1 0-1.4 1.4l3.5 3.5 1.4-1.4-3.5-3.5ZM6.5 11a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9Z"/></svg>
+        <input name="q" type="search" placeholder="Search all AsiBackbone" autocomplete="off" aria-label="Search all AsiBackbone documentation">
+      </form>
     </div>
   </header>
 

@@ -15,6 +15,7 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 | `.nojekyll` | Serves the files as-is, without a Jekyll build |
 | `OUTREACH-PLAN.md` | Maintainer-owned audience, publication, community-participation, and measurement plan |
 | `REPOSITORY-METADATA-BASELINE.md` | Organization-wide repository metadata expectations and review procedure |
+| `PUBLICATION-INTEGRITY.md` | GitHub Pages publication-integrity assessment and the deferred Sigstore signing decision |
 
 Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
 
@@ -42,6 +43,8 @@ When a project site starts publishing a sitemap, add its `Sitemap:` line to `rob
 ## Publishing
 
 GitHub Pages deploys the `main` branch root. Changes are live a minute or two after they reach `main`.
+
+The site is not signed. This repository distributes no downloadable artifact, so Sigstore signing is deferred. [PUBLICATION-INTEGRITY.md](PUBLICATION-INTEGRITY.md) records the publication controls, the threat model, the revisit triggers, and `scripts/Test-PublishedSiteParity.ps1`, which checks that the live site serves the committed bytes.
 
 ## Licensing
 

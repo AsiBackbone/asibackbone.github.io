@@ -160,4 +160,8 @@ Record the review date, reviewer, command result, and any exception with an owne
   GitHub code scanning.
 - Advanced features that GitHub reports as unavailable for the current plan are recorded as unavailable rather than enabled.
 - Signed commits are not required by this baseline.
+- Sigstore signing of the GitHub Pages site is deferred because this repository
+  distributes no downloadable artifact. The
+  [publication-integrity assessment](PUBLICATION-INTEGRITY.md) records the
+  inventory, threat model, live-parity check, and revisit triggers.
 - Repository rulesets, release environments, publishing credentials, and package controls remain repository-specific.

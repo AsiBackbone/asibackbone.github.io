@@ -38,6 +38,7 @@ $codeLicensePath = Get-RequiredFile 'LICENSE-CODE'
 $licenseScopePath = Get-RequiredFile 'LICENSES.md'
 $assetLicensePath = Get-RequiredFile 'ASSETS-LICENSES.md'
 $securityBaselinePath = Get-RequiredFile 'SECURITY-BASELINE.md'
+$publicationIntegrityPath = Get-RequiredFile 'PUBLICATION-INTEGRITY.md'
 $editorConfigPath = Get-RequiredFile '.editorconfig'
 $gitAttributesPath = Get-RequiredFile '.gitattributes'
 $gitIgnorePath = Get-RequiredFile '.gitignore'
@@ -338,6 +339,47 @@ if ($securityBaselinePath) {
     )) {
         if (-not $securityBaseline.Contains($requiredText, [StringComparison]::Ordinal)) {
             Add-Failure "SECURITY-BASELINE.md is missing its '$requiredText' control disposition."
+        }
+    }
+
+    if (-not $securityBaseline.Contains('[publication-integrity assessment](PUBLICATION-INTEGRITY.md)', [StringComparison]::Ordinal)) {
+        Add-Failure 'SECURITY-BASELINE.md must link the publication-integrity assessment.'
+    }
+}
+
+# Sigstore signing is deferred because this repository distributes no downloadable artifact (issue #35). Publishing
+# one requires revisiting that decision first, so its file types fail validation while the deferral stands.
+if ($publicationIntegrityPath) {
+    $publicationIntegrity = Get-Content -LiteralPath $publicationIntegrityPath -Raw
+    $decision = [regex]::Match($publicationIntegrity, '(?m)^\*\*Decision:\*\*\s*(?<decision>[A-Za-z]+)\s*$')
+    if (-not $decision.Success) {
+        Add-Failure "PUBLICATION-INTEGRITY.md must record a '**Decision:**' line."
+    }
+    elseif ($decision.Groups['decision'].Value -ne 'Deferred') {
+        Add-Failure "PUBLICATION-INTEGRITY.md records decision '$($decision.Groups['decision'].Value)', but this validation only supports 'Deferred'. Add signed-artifact verification before changing the decision."
+    }
+    else {
+        foreach ($requiredText in @(
+            'https://github.com/AsiBackbone/.github/blob/main/assurance/SIGSTORE.md'
+            'GitHub Pages does **not** sign the files it serves'
+            '## Revisit triggers'
+        )) {
+            if (-not $publicationIntegrity.Contains($requiredText, [StringComparison]::Ordinal)) {
+                Add-Failure "PUBLICATION-INTEGRITY.md is missing required content: $requiredText"
+            }
+        }
+
+        $trackedFiles = @(& git -C $RepositoryRoot ls-files 2>$null)
+        if ($LASTEXITCODE -ne 0) {
+            Add-Failure 'Unable to list tracked files to check for downloadable artifacts.'
+        }
+        else {
+            $artifactPattern = '\.(zip|tar|tgz|gz|bz2|xz|7z|rar|nupkg|snupkg|jar|whl|exe|msi|msix|dll|so|dylib|deb|rpm|dmg|pkg|appimage|iso|pdf)$'
+            foreach ($trackedFile in $trackedFiles) {
+                if ($trackedFile -match $artifactPattern) {
+                    Add-Failure "Downloadable artifact '$trackedFile' is tracked, but PUBLICATION-INTEGRITY.md defers Sigstore signing because none are published. Revisit that decision before publishing artifacts."
+                }
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$Organization = 'AsiBackbone',
-    [string[]]$Repositories = @('.github', 'asibackbone.github.io', 'AsiBackbone', 'Learning', 'NetCoreApplicationTemplate'),
+    [string[]]$Repositories = @('.github', 'asibackbone.github.io', 'AsiBackbone', 'Learning', 'NetCoreApplicationTemplate', 'ReferenceApplication'),
     [switch]$SelfTest,
     [switch]$Json
 )
@@ -50,11 +50,12 @@ function Invoke-SelfTest {
         'AsiBackbone' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
         'Learning' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
         'NetCoreApplicationTemplate' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
+        'ReferenceApplication' = [pscustomobject]@{ has_wiki = $false; has_discussions = $false }
     }
 
     $compliant = @(Test-RepositoryMetadataBaseline $compliantStates)
-    if ($compliant.Count -ne 10 -or @($compliant | Where-Object Status -ne 'Pass').Count -ne 0) {
-        $failures.Add('A compliant five-repository baseline did not pass all ten checks.')
+    if ($compliant.Count -ne 12 -or @($compliant | Where-Object Status -ne 'Pass').Count -ne 0) {
+        $failures.Add('A compliant six-repository baseline did not pass all twelve checks.')
     }
 
     $compliantStates['Learning'].has_wiki = $true

@@ -44,6 +44,15 @@ foreach ($requiredText in @(
     }
 }
 
+foreach ($requiredRoute in @(
+    '[ReferenceApplication](https://asibackbone.github.io/ReferenceApplication/)',
+    'Learning, AsiBackbone, NetCoreApplicationTemplate, ReferenceApplication, or this organization repository'
+)) {
+    if (-not $plan.Contains($requiredRoute, [StringComparison]::Ordinal)) {
+        $failures.Add("OUTREACH-PLAN.md is missing required project routing: $requiredRoute")
+    }
+}
+
 if (-not $readme.Contains('[OUTREACH-PLAN.md](OUTREACH-PLAN.md)', [StringComparison]::Ordinal)) {
     $failures.Add('README.md must link to OUTREACH-PLAN.md.')
 }

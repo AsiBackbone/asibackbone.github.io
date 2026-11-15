@@ -30,6 +30,7 @@ Outreach artifacts may summarize these sources, but every technical claim must l
 | Concepts, comparisons, tutorials, and cross-project learning paths | [Learning](https://asibackbone.github.io/Learning/) | Lead with the reader's decision or problem; link to the article rather than reproducing it. |
 | Framework behavior, packages, API guidance, compatibility, and framework releases | [AsiBackbone](https://asibackbone.github.io/AsiBackbone/) | Verify against the documentation and [framework releases](https://github.com/AsiBackbone/AsiBackbone/releases) on publication day. |
 | Scaffold behavior, runnable defaults, setup instructions, and template releases | [NetCoreApplicationTemplate](https://asibackbone.github.io/NetCoreApplicationTemplate/) | Verify commands against a clean scaffold and the [template releases](https://github.com/AsiBackbone/NetCoreApplicationTemplate/releases). |
+| End-to-end integration walkthrough and runnable reference host | [ReferenceApplication](https://asibackbone.github.io/ReferenceApplication/) | Verify the documented scenario against the current reference host and route reusable framework or scaffold changes back to their owning projects. |
 | Cross-project questions, adopter reports, and architecture proposals | [Organization Discussions](https://github.com/orgs/AsiBackbone/discussions/categories/architecture-integration) | Link to repository-specific evidence; do not turn a discussion into a second documentation source. |
 | Organization identity, project routing, and this plan | [Organization landing repository](https://github.com/AsiBackbone/asibackbone.github.io) | Keep the material organizational and route implementation changes to the owning repository. |
 
@@ -83,7 +84,7 @@ If a venue has no clear participation rules, no current organizer contact, or no
 
 - [ ] Name one audience, one problem, and one useful action the reader can take.
 - [ ] Identify the owning canonical source and confirm that it is current.
-- [ ] Decide whether the work belongs in Learning, AsiBackbone, NetCoreApplicationTemplate, or this organization repository.
+- [ ] Decide whether the work belongs in Learning, AsiBackbone, NetCoreApplicationTemplate, ReferenceApplication, or this organization repository.
 - [ ] Read the target channel's current content, submission, self-promotion, conduct, licensing, and disclosure rules.
 - [ ] Check for a similar recent post or open submission to avoid repetition.
 

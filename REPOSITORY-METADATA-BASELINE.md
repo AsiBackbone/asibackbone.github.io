@@ -1,6 +1,6 @@
 # Repository metadata baseline
 
-Last reviewed: 2026-10-12
+Last reviewed: 2026-11-15
 
 This baseline records organization-wide repository settings that affect where maintainers and users find authoritative information. These are GitHub-hosted settings, so their state must be read from the GitHub API rather than inferred from files in a checkout.
 
@@ -11,6 +11,7 @@ Wikis are disabled on every AsiBackbone organization repository. Project documen
 - Learning: <https://asibackbone.github.io/Learning/>
 - AsiBackbone: <https://asibackbone.github.io/AsiBackbone/>
 - NetCoreApplicationTemplate: <https://asibackbone.github.io/NetCoreApplicationTemplate/>
+- ReferenceApplication: <https://asibackbone.github.io/ReferenceApplication/>
 - Organization landing page: <https://asibackbone.github.io/>
 
 The `.github` repository owns the public organization profile and default community-health files. It does not maintain a separate wiki.
@@ -32,6 +33,7 @@ Repository-specific Discussions are disabled to avoid splitting questions and pr
 | `AsiBackbone/AsiBackbone` | Disabled | Disabled |
 | `AsiBackbone/Learning` | Disabled | Disabled |
 | `AsiBackbone/NetCoreApplicationTemplate` | Disabled | Disabled |
+| `AsiBackbone/ReferenceApplication` | Disabled | Disabled |
 
 ## Verification procedure
 

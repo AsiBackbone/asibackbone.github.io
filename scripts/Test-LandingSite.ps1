@@ -293,7 +293,7 @@ if ($codeLicensePath -and -not (Get-Content -LiteralPath $codeLicensePath -Raw).
 
 if ($licenseScopePath) {
     $licenseScope = Get-Content -LiteralPath $licenseScopePath -Raw
-    foreach ($requiredText in @('CC BY 4.0 content', 'MIT-licensed source', 'Brand and third-party boundaries', 'Contributions')) {
+    foreach ($requiredText in @('CC BY 4.0 content', 'MIT-licensed source', 'Brand and third-party boundaries', 'Contributions', 'That split is not organization-wide.')) {
         if (-not $licenseScope.Contains($requiredText, [StringComparison]::Ordinal)) {
             Add-Failure "LICENSES.md is missing its '$requiredText' boundary."
         }

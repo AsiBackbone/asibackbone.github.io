@@ -76,7 +76,7 @@ if ($indexPath) {
         'https://github.com/AsiBackbone/Learning/blob/main/CONTRIBUTING.md' = 'Learning contribution route'
         'https://github.com/AsiBackbone/AsiBackbone/blob/main/CONTRIBUTING.md' = 'AsiBackbone contribution route'
         'https://github.com/AsiBackbone/NetCoreApplicationTemplate/blob/main/CONTRIBUTING.md' = 'template contribution route'
-        'https://github.com/AsiBackbone/.github/blob/main/CONTRIBUTING.md' = 'Reference Application contribution route'
+        'https://github.com/AsiBackbone/ReferenceApplication/blob/main/CONTRIBUTING.md' = 'Reference Application contribution route'
         'https://github.com/AsiBackbone/Learning/security/policy' = 'Learning security route'
         'https://github.com/AsiBackbone/AsiBackbone/security/policy' = 'AsiBackbone security route'
         'https://github.com/AsiBackbone/NetCoreApplicationTemplate/security/policy' = 'template security route'
@@ -251,10 +251,11 @@ if ($sitemapPath) {
             'https://asibackbone.github.io/AsiBackbone/sitemap.xml'
             'https://asibackbone.github.io/Learning/sitemap.xml'
             'https://asibackbone.github.io/NetCoreApplicationTemplate/sitemap.xml'
+            'https://asibackbone.github.io/ReferenceApplication/sitemap.xml'
         ) | Sort-Object
 
         if (($actualLocations -join "`n") -cne ($expectedLocations -join "`n")) {
-            Add-Failure "sitemap.xml must list exactly the three project sitemap URLs. Found: $($actualLocations -join ', ')"
+            Add-Failure "sitemap.xml must list exactly the organization sitemap and four project sitemap URLs. Found: $($actualLocations -join ', ')"
         }
     }
     catch {

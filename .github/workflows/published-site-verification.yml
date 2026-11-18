@@ -1,0 +1,47 @@
+name: Published site verification
+
+# GitHub's own pages-build-deployment publishes this repository (see PUBLICATION-INTEGRITY.md). This workflow does
+# not build or deploy anything: after a site change reaches main, it polls the live site until GitHub Pages serves
+# the committed bytes, then checks the live release summary. The weekly run catches later drift.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'index.html'
+      - 'search/**'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'site-sitemap.xml'
+      - 'images/**'
+  schedule:
+    - cron: '43 10 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: published-site-verification
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify published site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # About ten minutes of retries covers Pages build time and CDN caching after a merge.
+      - name: Verify served files match the checked-out commit
+        shell: pwsh
+        run: ./scripts/Test-PublishedSiteParity.ps1 -Ref HEAD -MaximumAttempts 30 -RetryDelaySeconds 20
+
+      - name: Verify live release summary
+        shell: pwsh
+        run: ./scripts/Test-ReleaseSummary.ps1 -SiteUrl https://asibackbone.github.io/ -MaximumAttempts 10 -RetryDelaySeconds 20

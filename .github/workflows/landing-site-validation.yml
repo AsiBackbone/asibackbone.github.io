@@ -8,6 +8,9 @@ on:
   push:
     branches:
       - main
+  # Catches a compatibility-matrix update that has not been rendered into index.html yet.
+  schedule:
+    - cron: '27 9 * * 1'
 
 permissions:
   contents: read
@@ -29,3 +32,13 @@ jobs:
       - name: Validate outreach plan
         shell: pwsh
         run: ./scripts/Test-OutreachPlan.ps1
+
+      - name: Validate release-summary tooling
+        shell: pwsh
+        run: ./scripts/Test-ReleaseSummary.ps1 -SelfTest
+
+      # Reads the organization compatibility manifest from AsiBackbone/.github main. A failure after the matrix
+      # changes means index.html needs ./scripts/Test-ReleaseSummary.ps1 -Update.
+      - name: Validate release summary against the compatibility matrix
+        shell: pwsh
+        run: ./scripts/Test-ReleaseSummary.ps1

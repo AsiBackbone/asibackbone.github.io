@@ -145,6 +145,16 @@
     .project p { margin: 0 0 1rem; color: var(--muted); }
     .project .links { margin-top: auto; display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-size: .95rem; }
 
+    .releases { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; }
+    .releases p { color: var(--muted); margin: 0 0 .75rem; max-width: 52em; }
+    .releases p:last-child { margin-bottom: 0; }
+    .releases strong { color: var(--text); }
+    .table-scroll { overflow-x: auto; margin: 0 0 1rem; }
+    .releases table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+    .releases th, .releases td { text-align: left; vertical-align: top; padding: .5rem .75rem .5rem 0; border-bottom: 1px solid var(--border); }
+    .releases thead th { color: var(--muted); font-weight: 600; }
+    .releases tbody th { font-weight: 600; }
+
     .principles { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
     .principles p { margin: 0 0 .75rem; }
     .principles p:last-child { margin-bottom: 0; }
@@ -167,7 +177,7 @@
   <header class="site">
     <div class="wrap">
       <img src="images/asibackbone-icon-50.png" alt="" width="36" height="36">
-      <a class="brand" href="https://asibackbone.github.io/">AsiBackbone</a>
+      <a class="brand" href="https://asibackbone.github.io/" aria-current="page">AsiBackbone</a>
       <nav aria-label="Sites">
         <a href="https://asibackbone.github.io/Learning/">Learning</a>
         <a href="#community">Community</a>
@@ -225,6 +235,31 @@
       </div>
     </section>
 
+    <section id="releases" aria-labelledby="releases-title">
+      <h2 id="releases-title">Current releases</h2>
+      <div class="releases">
+        <!-- BEGIN release-summary: generated from AsiBackbone/.github compatibility/ecosystem-compatibility.json by scripts/Test-ReleaseSummary.ps1 -Update. Do not edit by hand. -->
+        <p>Current stable releases, from the organization <a href="https://github.com/AsiBackbone/.github/blob/main/compatibility/README.md">ecosystem compatibility matrix</a> updated <time datetime="2026-11-15">2026-11-15</time>. Each project releases on its own schedule; a current release is not automatically reviewed with the others.</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th scope="col">Project</th><th scope="col">Current release</th><th scope="col">Support</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">AsiBackbone Learning</th><td>Archive: <a href="https://github.com/AsiBackbone/Learning/releases/tag/v1.6.0">Learning 1.6.0</a></td><td>Archival snapshot; not a support line</td></tr>
+              <tr><th scope="row">AsiBackbone</th><td><a href="https://github.com/AsiBackbone/AsiBackbone/releases/tag/v7.5.4">AsiBackbone 7.5.4</a></td><td>7.x line</td></tr>
+              <tr><th scope="row">.NET Core Application Template</th><td><a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate/releases/tag/v2.11.10">NCAT 2.11.10</a></td><td>2.x line</td></tr>
+              <tr><th scope="row">AsiBackbone Reference Application</th><td><a href="https://github.com/AsiBackbone/ReferenceApplication/releases/tag/v1.0.2">Reference Application 1.0.2</a></td><td>1.x line</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Reviewed together:</strong> <a href="https://github.com/AsiBackbone/ReferenceApplication/releases/tag/v1.0.2">Reference Application 1.0.2</a> builds and tests <a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate/releases/tag/v2.11.10">NCAT 2.11.10</a> with <a href="https://github.com/AsiBackbone/AsiBackbone/releases/tag/v7.5.4">AsiBackbone 7.5.4</a> on <code>net10.0</code>, reviewed <time datetime="2026-11-15">2026-11-15</time>.</p>
+        <p><strong>Learning teaching baseline:</strong> <a href="https://github.com/AsiBackbone/Learning/releases/tag/v1.6.0">Learning 1.6.0</a> keeps its implementation-dependent pages reviewed against <a href="https://github.com/AsiBackbone/AsiBackbone/releases/tag/v7.0.0">AsiBackbone 7.0.0</a> and <a href="https://github.com/AsiBackbone/NetCoreApplicationTemplate/releases/tag/v2.11.2">NCAT 2.11.2</a>, reviewed <time datetime="2026-11-14">2026-11-14</time>. Those pins are deliberate teaching snapshots, not a recommendation to install older releases.</p>
+        <p>A combination the matrix does not list is untested, not known to be broken. The matrix links the evidence for every reviewed and historical combination.</p>
+        <!-- END release-summary -->
+      </div>
+    </section>
+
     <section aria-labelledby="projects-title">
       <h2 id="projects-title">Projects</h2>
       <div class="projects">
@@ -269,8 +304,9 @@
             </a>
           </h3>
           <p>
-            An NCAT-generated ASP.NET Core host that records the step-by-step
-            integration of AsiBackbone. Follow the walkthrough from the preserved
+            The stable integration example, not a product: an NCAT-generated
+            ASP.NET Core host that records the step-by-step integration of
+            AsiBackbone. Follow the walkthrough from the preserved
             NCAT baseline through package integration, governance rules, governed
             endpoints, and audit evidence.
           </p>
@@ -304,6 +340,7 @@
   <footer>
     <div class="wrap">
       <p>Built with .NET, C#, ASP.NET Core, EF Core, Serilog, and GitHub Actions.</p>
+      <p><a href="https://github.com/AsiBackbone/asibackbone.github.io">Site source</a> · <a href="#community">Community</a> · <a href="https://github.com/AsiBackbone/asibackbone.github.io/blob/main/LICENSES.md">Licenses</a></p>
       <p><a href="https://github.com/AsiBackbone">AsiBackbone on GitHub</a> · AsiBackbone is not affiliated with the Artificial Superintelligence Alliance.</p>
     </div>
   </footer>

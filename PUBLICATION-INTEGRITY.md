@@ -62,6 +62,11 @@ assumes that GitHub's HTTPS endpoint and the repository's `main` branch are trus
 signature, and a mismatch shortly after a merge can simply mean that Pages has not finished deploying. It is not part
 of pull-request validation because it depends on the network and on deployment timing.
 
+The `Published site verification` workflow runs it after every site change reaches `main`, and weekly, with
+`-Ref HEAD -MaximumAttempts 30` so it waits for the deployment instead of failing on it. The workflow also checks the
+live release summary with `scripts/Test-ReleaseSummary.ps1 -SiteUrl`. It has read-only permissions and does not build
+or deploy the site.
+
 ## Fail-closed guard
 
 `scripts/Test-LandingSite.ps1` fails if:

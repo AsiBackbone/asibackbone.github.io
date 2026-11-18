@@ -108,7 +108,7 @@ scope rather than treating every heuristic as a universal requirement:
   `main`. This is the supported SAST surface in repositories without application
   source.
 - The landing-site validation workflow runs on every pull request and push to
-  `main`. A CI-tests warning can temporarily reflect historical pull requests
+  `main`, and weekly. A CI-tests warning can temporarily reflect historical pull requests
   from before that workflow existed rather than a current coverage gap.
 - Fuzzing is not adopted because this static landing repository has no service,
   library, parser, or untrusted runtime input surface. Reconsider this decision

@@ -6,7 +6,7 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | Organization landing page linking the four projects, their documentation sites, available archived DOIs, community routes, organization search, and the organization funding destination |
+| `index.html` | Organization landing page linking the four projects, their documentation sites, available archived DOIs, current releases, community routes, organization search, and the organization funding destination |
 | `search/` | Organization-wide documentation search that combines the published indexes from Learning, Framework, Template, and Reference |
 | `robots.txt` | Crawler rules and `Sitemap:` lines. Crawlers only read `robots.txt` at the domain root, so this is the one place that can advertise the project sites' sitemaps |
 | `sitemap.xml` | Sitemap index for the organization and project sites |
@@ -16,6 +16,8 @@ Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages site
 | `OUTREACH-PLAN.md` | Maintainer-owned audience, publication, community-participation, and measurement plan |
 | `REPOSITORY-METADATA-BASELINE.md` | Organization-wide repository metadata expectations and review procedure |
 | `PUBLICATION-INTEGRITY.md` | GitHub Pages publication-integrity assessment and the deferred Sigstore signing decision |
+| `DOCUMENTATION-CURRENCY-REVIEW.md` | Dated inventory of this repository's documentation, its version references, and the findings of the most recent currency review |
+| `scripts/` | Validation scripts run by the workflows; each script's header describes its contract |
 
 Organization identity, new-repository defaults, supporting-repository controls, and the periodic verification procedure are documented in [SECURITY-BASELINE.md](SECURITY-BASELINE.md).
 
@@ -39,6 +41,20 @@ The project repositories publish their own sites under this domain:
 This repository must not contain folders named `Learning`, `AsiBackbone`, `NetCoreApplicationTemplate`, or `ReferenceApplication`, because those paths belong to the project sites.
 
 When a project site starts publishing a sitemap, add its `Sitemap:` line to `robots.txt`.
+
+## Current releases
+
+The landing page's **Current releases** section shows each project's current stable release, the integration combination that was reviewed together, and Learning's teaching baseline. Its contents are generated from the organization [compatibility manifest](https://github.com/AsiBackbone/.github/blob/main/compatibility/ecosystem-compatibility.json) and must not be edited by hand; this repository keeps no version numbers of its own. The [compatibility matrix](https://github.com/AsiBackbone/.github/blob/main/compatibility/README.md) remains the owner of that information and explains which combinations were reviewed.
+
+After the matrix changes, regenerate and commit the section:
+
+```powershell
+./scripts/Test-ReleaseSummary.ps1 -Update
+```
+
+Use `-ManifestPath` to read a local clone of `AsiBackbone/.github` instead of downloading the manifest from its `main` branch. Landing-site validation fails while `index.html` differs from the manifest, including on its weekly scheduled run, and the published-site verification workflow checks the live page after each site change.
+
+A current release is not a statement that it was reviewed with the other projects' current releases, and Learning's reviewed teaching pins are not upgrade instructions. Deeper pages in this repository link the matrix instead of naming versions.
 
 ## Publishing
 

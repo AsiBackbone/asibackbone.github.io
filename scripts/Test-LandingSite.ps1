@@ -47,6 +47,9 @@ $dependencyReviewPath = Get-RequiredFile '.github/workflows/dependency-review.ym
 $codeqlPath = Get-RequiredFile '.github/workflows/codeql.yml'
 $workflowSecurityPath = Get-RequiredFile '.github/workflows/workflow-security.yml'
 $scorecardPath = Get-RequiredFile '.github/workflows/openssf-scorecard.yml'
+$null = Get-RequiredFile 'scripts/Test-ReleaseSummary.ps1'
+$null = Get-RequiredFile '.github/workflows/published-site-verification.yml'
+$null = Get-RequiredFile 'DOCUMENTATION-CURRENCY-REVIEW.md'
 
 if ($indexPath) {
     $html = Get-Content -LiteralPath $indexPath -Raw
@@ -119,6 +122,46 @@ if ($indexPath) {
         }
     }
 
+    # Release data inside the generated block is checked against the compatibility manifest by
+    # scripts/Test-ReleaseSummary.ps1; this contract only requires the entry point and its source link (issue #45).
+    foreach ($requiredText in @(
+        '<section id="releases" aria-labelledby="releases-title">'
+        '<h2 id="releases-title">Current releases</h2>'
+        '<!-- BEGIN release-summary:'
+        '<!-- END release-summary -->'
+        'href="https://github.com/AsiBackbone/.github/blob/main/compatibility/README.md"'
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing required release-summary content: $requiredText"
+        }
+    }
+
+    $communityIndex = $html.IndexOf('<section id="community"', [StringComparison]::Ordinal)
+    $releasesIndex = $html.IndexOf('<section id="releases"', [StringComparison]::Ordinal)
+    $projectsIndex = $html.IndexOf('<section aria-labelledby="projects-title">', [StringComparison]::Ordinal)
+    if ($communityIndex -ge 0 -and $releasesIndex -ge 0 -and $projectsIndex -ge 0 -and
+        -not ($communityIndex -lt $releasesIndex -and $releasesIndex -lt $projectsIndex)) {
+        Add-Failure 'index.html must place Current releases after the community routes and before the project cards.'
+    }
+
+    if (-not $html.Contains('The stable integration example, not a product', [StringComparison]::Ordinal)) {
+        Add-Failure 'index.html must describe the Reference Application as the stable integration example, not a product.'
+    }
+
+    if ($html -match '(?i)\bspecimen\b') {
+        Add-Failure 'index.html must not call a project a specimen; use the landing-page standard descriptions.'
+    }
+
+    foreach ($requiredText in @(
+        '<a class="brand" href="https://asibackbone.github.io/" aria-current="page">'
+        'href="https://github.com/AsiBackbone/asibackbone.github.io"'
+        'href="https://github.com/AsiBackbone/asibackbone.github.io/blob/main/LICENSES.md"'
+    )) {
+        if (-not $html.Contains($requiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html is missing required navigation or footer content: $requiredText"
+        }
+    }
+
     if ($html -match 'https://github\.com/AsiBackbone/(?:Learning|AsiBackbone|NetCoreApplicationTemplate|ReferenceApplication)/discussions') {
         Add-Failure 'index.html must not route readers to a project repository Discussions surface.'
     }
@@ -185,6 +228,9 @@ if ($searchPath) {
         '<input id="search-query" name="q" type="search"'
         '<p id="search-status" class="status" role="status" aria-live="polite"></p>'
         '<script src="search.js" defer></script>'
+        'href="https://asibackbone.github.io/#community"'
+        'href="https://github.com/AsiBackbone/asibackbone.github.io"'
+        'href="https://github.com/AsiBackbone/asibackbone.github.io/blob/main/LICENSES.md"'
     )) {
         if (-not $searchHtml.Contains($requiredText, [StringComparison]::Ordinal)) {
             Add-Failure "search/index.html is missing required organization-search content: $requiredText"

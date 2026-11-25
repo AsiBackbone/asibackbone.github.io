@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AsiBackbone | Open-source .NET governance and architecture patterns</title>
-  <meta name="description" content="Open-source .NET governance, secure ASP.NET Core architecture, practical learning material, and a step-by-step NCAT-to-AsiBackbone reference application.">
+  <meta name="description" content="AsiBackbone is an open-source .NET toolkit that helps applications check the rules before a consequential action and keep a record of why it was allowed.">
   <meta name="google-site-verification" content="R9IrfghOCGIgoGKd3mtDyPs_iTMXCVltPrGBNPVnFtA">
   <link rel="canonical" href="https://asibackbone.github.io/">
   <link rel="icon" href="images/favicon.ico">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AsiBackbone">
   <meta property="og:title" content="AsiBackbone — open-source .NET governance and architecture patterns">
-  <meta property="og:description" content="Policy-governed decision pipelines, a secure-by-default ASP.NET Core template, practical architecture learning, and a concrete Reference Application showing NCAT-to-AsiBackbone integration.">
+  <meta property="og:description" content="Check the rules before your .NET application acts, and keep the reasoning behind the decision. Plus a secure-by-default ASP.NET Core template, practical architecture learning, and a step-by-step Reference Application.">
   <meta property="og:url" content="https://asibackbone.github.io/">
   <meta property="og:image" content="https://asibackbone.github.io/images/asibackbone-social.png">
   <meta property="og:image:alt" content="AsiBackbone — practical .NET architecture, security, and governed execution">
@@ -107,6 +107,11 @@
 
     h2 { font-size: 1.5rem; margin: 2.5rem 0 1rem; }
 
+    .overview { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+    .overview p { margin: 0 0 .75rem; max-width: 52em; }
+    .overview p:last-child { margin-bottom: 0; }
+    .overview ul { margin: 0 0 .75rem; padding-left: 1.25rem; }
+
     .community-intro { color: var(--muted); max-width: 48em; }
     .routes { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
     .route { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
@@ -114,6 +119,8 @@
     .route p { color: var(--muted); margin: 0 0 .65rem; }
     .route p:last-child { margin-bottom: 0; }
     .route .links { display: flex; flex-wrap: wrap; gap: .35rem 1rem; font-size: .95rem; }
+    .route ul { color: var(--muted); margin: 0 0 .65rem; padding-left: 1.25rem; }
+    .overview-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); margin-top: 1rem; }
 
     .projects { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(18rem, 1fr)); }
 
@@ -196,9 +203,57 @@
 
   <main id="main" class="wrap">
     <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title">Why this outcome was permitted, under which policy, with what evidence.</h1>
-      <p>AsiBackbone provides open-source .NET learning resources, a secure ASP.NET Core application template, and a <a href="https://asibackbone.github.io/AsiBackbone/">governance framework</a> for systems that need explainable, auditable decisions. Start with the <a href="https://asibackbone.github.io/Learning/">learning resources</a>, use the <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">template</a> on its own, or follow the <a href="https://asibackbone.github.io/ReferenceApplication/">reference application</a> to see governed execution in practice.</p>
+      <h1 id="hero-title">Check the rules before your application acts, and keep the reasoning behind the decision.</h1>
+      <p>AsiBackbone is an open-source .NET toolkit that helps applications decide whether a consequential action should happen, and keep a record of why. <a href="#what-it-does">See what it does</a>.</p>
+      <p>Alongside the <a href="https://asibackbone.github.io/AsiBackbone/">framework</a>, the organization publishes <a href="https://asibackbone.github.io/Learning/">learning resources</a>, a secure <a href="https://asibackbone.github.io/NetCoreApplicationTemplate/">ASP.NET Core application template</a> you can use on its own, and a <a href="https://asibackbone.github.io/ReferenceApplication/">reference application</a> that shows governed execution in practice.</p>
       <p>Most applications don't need a governance layer; when yours does, the framework enforces policy and records the evidence behind each governed decision.</p>
+    </section>
+
+    <section id="what-it-does" aria-labelledby="what-it-does-title">
+      <h2 id="what-it-does-title">What AsiBackbone does</h2>
+      <div class="overview">
+        <p>Think about software that can issue refunds, delete accounts, export customer data, or let an AI assistant use
+          tools. Knowing who is making the request is only part of the problem. The application may also need to ask:</p>
+        <ul>
+          <li>Is this particular action allowed under the current rules?</li>
+          <li>Does someone need to acknowledge it before it proceeds?</li>
+          <li>If another service performs it later, how narrowly should its permission be limited?</li>
+          <li>What evidence should we keep to explain the decision?</li>
+        </ul>
+        <p>AsiBackbone helps developers put those checks into a consistent flow before the application acts.</p>
+      </div>
+      <div class="routes overview-cards">
+        <article class="route">
+          <h3>A simple example</h3>
+          <p>An AI support assistant proposes a refund. Instead of letting the assistant call the payment system
+            directly, the application checks its policies:</p>
+          <ul>
+            <li>a small refund might proceed;</li>
+            <li>a larger one might require human acknowledgment;</li>
+            <li>an invalid refund might be denied.</li>
+          </ul>
+          <p>AsiBackbone helps structure that decision and its evidence. The application, not AsiBackbone and not the
+            AI, still performs the payment operation.</p>
+        </article>
+        <article class="route">
+          <h3>How it fits into an application</h3>
+          <p>Authentication establishes who you are. Authorization determines what you may access or do. AsiBackbone
+            adds a structured decision process around a particular consequential action: whether it should proceed
+            now, under which conditions, and with what evidence.</p>
+          <p>For ASP.NET Core developers, its integration library lets you declare governance requirements on
+            endpoints while middleware coordinates the checks.</p>
+        </article>
+        <article class="route">
+          <h3>Why use it</h3>
+          <p>Consistency. Rather than scattering approval checks, policy decisions, and audit handling throughout an
+            application, developers get a shared structure for consequential operations.</p>
+        </article>
+        <article class="route">
+          <h3>What it is not</h3>
+          <p>It is not a replacement for authentication, a payment processor, an AI model, or an automatic compliance
+            solution. It helps organize the decision boundary around those systems.</p>
+        </article>
+      </div>
     </section>
 
     <section id="community" aria-labelledby="community-title">

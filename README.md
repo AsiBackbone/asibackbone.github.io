@@ -2,6 +2,14 @@
 
 Organization landing page and `robots.txt` for the AsiBackbone GitHub Pages sites, served at <https://asibackbone.github.io/>.
 
+## Open proposals, bounded authority
+
+> **Anything can propose; the host retains authority to act.**
+>
+> **Proposal is open. Authority is bounded.**
+
+Humans and AI agents may introduce proposals through [AsiBackbone Organization Discussions](https://github.com/orgs/AsiBackbone/discussions). In this community process, the accountable host is the human maintainer: maintainers alone decide whether a proposal becomes organizational work and authorize any downstream action. See the [public proposal intake guidance](https://github.com/AsiBackbone/.github/blob/main/CONTRIBUTING.md#public-proposal-intake).
+
 ## Contents
 
 | File | Purpose |

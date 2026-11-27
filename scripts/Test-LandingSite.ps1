@@ -95,8 +95,8 @@ if ($indexPath) {
 
     foreach ($requiredText in @(
         'Proposal is open. Authority is bounded.'
-        'Humans and AI agents may introduce proposals through Organization Discussions.'
-        'maintainers alone decide whether a proposal becomes organizational work and authorize any downstream action.'
+        'Anyone may submit a proposal through Organization Discussions, including one drafted with AI assistance; the person who posts it is responsible for it.'
+        'In this community process, human maintainers alone decide whether a proposal becomes organizational work and authorize any downstream action.'
         'href="https://github.com/AsiBackbone/.github/blob/main/CONTRIBUTING.md#public-proposal-intake"'
         'Use organization Q&amp;A for project-specific and cross-project questions, and name the affected repository and version.'
         "Route concrete work to the affected repository's issues and contribution guidance."
@@ -154,6 +154,16 @@ if ($indexPath) {
 
     if ($html -match '(?i)\bspecimen\b') {
         Add-Failure 'index.html must not call a project a specimen; use the landing-page standard descriptions.'
+    }
+
+    foreach ($retiredText in @(
+        'Anything can propose; the host retains authority to act.'
+        'the accountable host is the human maintainer'
+        'Humans and AI agents may introduce proposals'
+    )) {
+        if ($html.Contains($retiredText, [StringComparison]::Ordinal)) {
+            Add-Failure "index.html must not contain retired authority wording: $retiredText"
+        }
     }
 
     foreach ($requiredText in @(

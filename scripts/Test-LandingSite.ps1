@@ -94,7 +94,7 @@ if ($indexPath) {
     }
 
     foreach ($requiredText in @(
-        'Anything can propose; the host retains authority to act. Proposal is open. Authority is bounded.'
+        'Proposal is open. Authority is bounded.'
         'Humans and AI agents may introduce proposals through Organization Discussions.'
         'maintainers alone decide whether a proposal becomes organizational work and authorize any downstream action.'
         'href="https://github.com/AsiBackbone/.github/blob/main/CONTRIBUTING.md#public-proposal-intake"'
